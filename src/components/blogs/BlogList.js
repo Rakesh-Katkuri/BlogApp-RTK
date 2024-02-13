@@ -10,23 +10,28 @@ import {
   getAllBlogsSlice,
   getByIdSlice,
 } from "../../redux/actions/blogAction";
+import { updateLikes } from "../../redux/actions/likesAction";
 import axios from "axios";
+import { decrement, increment } from "../../redux/reducer/likesSlice";
 
 const BlogList = ({
   blogs,
-  handleLike,
+  // handleLike,
   handleFavorite,
   deletePost,
   showButtons = true,
+  likes,
 }) => {
   const userId = localStorage.getItem("userId");
   const itemsPerRow = 3; // Adjust the number of items per row
   const itemsPerPage = 6; // Adjust the number of items per page
   const [currentPage, setCurrentPage] = useState(1);
 
+  const [likesUpdated, setLikesUpdated] = useState(false); // State to track likes update
+
   const [selectedBlog, setSelectedBlog] = useState(null);
 
-  const { getMyBlogs } = useAuth();
+  // const { getMyBlogs } = useAuth();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -52,20 +57,67 @@ const BlogList = ({
     navigate(`/blog/${blog.id}`);
   };
 
+  const handleLike = async (blogId) => {
+    try {
+      const response = await dispatch(updateLikes(blogId));
+      const updatedPost = response.payload;
+
+      // Check if the user liked the post
+      const userLiked = updatedPost.likesBy.includes(userId);
+
+      // Dispatch the appropriate action based on whether the user liked or unliked the post
+      if (userLiked) {
+        dispatch(increment()); // Increment likes count
+        toast.success("Post Liked!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        dispatch(decrement()); // Decrement likes count
+        toast.info("Post Disliked!", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+      // Set likes updated flag to trigger component re-render
+      setLikesUpdated(!likesUpdated);
+    } catch (error) {
+      console.error("Error liking post", error);
+      toast.error("Error liking post", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+
   const capitalizeFirstLetter = (text) => {
     if (!text) return "";
     return text.charAt(0).toUpperCase() + text.slice(1);
   };
 
-  const deleteHandler = (id) => {
-    const response = axios.delete(`http://localhost:3002/posts/${id}`);
-    console.log(response);
-    if (response) {
-      dispatch(getAllBlogsSlice());
-    }
-    // dispatch(deleteSlice(id));
-    setSelectedBlog(null);
+  const deleteHandler = async (id) => {
+    await axios.delete(`http://localhost:3002/posts/${id}`).then((res) => {
+      if (res.status === 200) {
+        dispatch(getAllBlogsSlice());
+      }
+    });
   };
+
+  useEffect(() => {
+    dispatch(getAllBlogsSlice());
+  }, []);
 
   const renderBlogs = () => {
     const rows = [];

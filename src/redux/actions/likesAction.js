@@ -2,26 +2,26 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const updateLikes = createAsyncThunk(
-  "posts/updatePost",
-  async (updatedPost) => {
-    console.log("yug", updatedPost);
-    const response = await axios.put(
-      `http://localhost:3002/posts/${updatedPost.id}`,
-      updatedPost
-    );
-    console.log("respones likes ", response);
-    return response.data;
+  "likes/updateLikes",
+  async (blogId) => {
+    try {
+      const userId = localStorage.getItem("userId");
+      const response = await axios.get(`http://localhost:3002/posts/${blogId}`);
+      const post = response.data;
+      const userLiked = post.likesBy.includes(userId);
+
+      if (userLiked) {
+        post.likes -= 1;
+        post.likesBy = post.likesBy.filter((id) => id !== userId);
+      } else {
+        post.likes += 1;
+        post.likesBy.push(userId);
+      }
+
+      await axios.put(`http://localhost:3002/posts/${blogId}`, post);
+      return post;
+    } catch (error) {
+      throw error;
+    }
   }
 );
-// .then((response) => {
-//     const updatedPostResponse = response.data;
-//     // const updatedPosts = posts.map((post) =>
-//     // post.id === updatedPostResponse.id ? updatedPostResponse : post
-//     // );
-//     return updatedPostResponse
-//     // setPosts(updatedPosts);
-//     // setPost(updatedPosts);
-// })
-// .catch((error)=>{
-//     console.log('error ', error)
-// });

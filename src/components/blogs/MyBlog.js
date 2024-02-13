@@ -4,6 +4,7 @@ import { useAuth } from "../../authContext/AuthContext";
 import Header from "../common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogsSlice } from "../../redux/actions/blogAction";
+import likesSlice from "../../redux/reducer/likesSlice";
 
 function MyBlog() {
   const { deletePost, handleLike, handleFavorite } = useAuth();
@@ -11,19 +12,22 @@ function MyBlog() {
   const dispatch = useDispatch();
 
   console.log("my blog post data", posts);
-  useEffect(() => {
-    dispatch(getAllBlogsSlice());
-  }, []);
+
   const userId = localStorage.getItem("userId");
 
   const myBlog = posts?.filter((item) => item.userId === userId);
   console.log(myBlog, "rakesh");
   const handleLikes = (blogId) => {
-    handleLike(blogId);
+    dispatch(likesSlice(blogId));
   };
   const handleFavorites = (blogId) => {
     handleFavorite(blogId);
   };
+
+  useEffect(() => {
+    console.log("myblogs useeffect");
+    dispatch(getAllBlogsSlice());
+  }, []);
 
   return (
     <>

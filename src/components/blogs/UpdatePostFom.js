@@ -6,7 +6,11 @@ import { useAuth } from "../../authContext/AuthContext";
 import Header from "../common/Header";
 import BlogForm from "./BlogForm";
 import { useDispatch, useSelector } from "react-redux";
-import { updateBlogSlice } from "../../redux/actions/blogAction";
+import {
+  getAllBlogsSlice,
+  getByIdSlice,
+  updateBlogSlice,
+} from "../../redux/actions/blogAction";
 
 const UpdatePostForm = () => {
   const { getMyBlogs } = useAuth();
@@ -24,6 +28,7 @@ const UpdatePostForm = () => {
     if (firstName && lastName) {
       setAthor(`${firstName} ${lastName}`);
     }
+    dispatch(getByIdSlice(postId));
   }, []);
 
   useEffect(() => {
@@ -54,9 +59,9 @@ const UpdatePostForm = () => {
       id: parseInt(postId),
       ...updatedPost,
     };
-    dispatch(updateBlogSlice(data));
-
     navigate("/my-blogs");
+    dispatch(updateBlogSlice(data));
+    dispatch(getAllBlogsSlice());
   };
 
   return (

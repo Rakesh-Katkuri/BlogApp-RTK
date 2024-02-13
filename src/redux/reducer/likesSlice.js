@@ -21,6 +21,7 @@ export const likesSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(updateLikes.pending, (state, action) => {
       state.loading = true;
+      state.error = null;
       console.log("likes slice action add case", action.payload);
     });
 

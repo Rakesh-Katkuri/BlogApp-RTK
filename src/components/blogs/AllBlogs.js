@@ -8,11 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "../common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogsSlice } from "../../redux/actions/blogAction";
+import { updateLikes } from "../../redux/actions/likesAction";
 // import AutoCarousel from "../home/AutoCarousel";
 
 //redux
-// import { useSelector, useDispatch } from "react-redux";
-// import { increment, decrement } from "../redux/reducer/likesSlice";
+import { increment, decrement } from "../../redux/reducer/likesSlice";
 // import { updateLikes } from "../redux/actions/likesAction";
 
 const AllBlogs = () => {
@@ -22,7 +22,7 @@ const AllBlogs = () => {
     getBlogs,
     updatePost,
     handleFavorite,
-    handleLike,
+    // handleLike,
   } = useAuth();
 
   //Retrieving the userId from LocalStorage
@@ -31,6 +31,7 @@ const AllBlogs = () => {
 
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.blogs);
+  const { likes } = useSelector((state) => state.likes); // Get the likes from the Redux store
   console.log("useSelector", posts);
 
   useEffect(() => {
@@ -45,7 +46,31 @@ const AllBlogs = () => {
   }, [location.pathname]);
 
   const handleLikes = (blogId) => {
-    handleLike(blogId);
+    // handleLike(blogId);
+    dispatch(updateLikes(blogId))
+      .unwrap()
+      .then(() => {
+        // toast.success("Post Liked!", {
+        //   position: "top-center",
+        //   autoClose: 1000,
+        //   hideProgressBar: false,
+        //   closeOnClick: true,
+        //   pauseOnHover: true,
+        //   draggable: true,
+        // });
+        dispatch(increment()); // Dispatch increment action after liking the post
+      })
+      .catch((error) => {
+        console.error("Error liking post", error);
+        toast.error("Error liking post", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      });
   };
   const handleFavorites = (blogId) => {
     handleFavorite(blogId);
@@ -71,6 +96,7 @@ const AllBlogs = () => {
             handleFavorite={handleFavorites}
             deletePost={updatePost}
             showButtons={false}
+            likes={likes}
           />
         ) : (
           <p>no blogs</p>
