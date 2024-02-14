@@ -186,42 +186,6 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  //user without login
-  // const handleLike = (postId) => {
-  //   try {
-  //     // Retrieve posts data from local storage
-  //     const postsData = JSON.parse(localStorage.getItem("posts")) || [];
-
-  //     // Find the post by postId
-  //     const postIndex = postsData.findIndex((post) => post.id === postId);
-  //     if (postIndex !== -1) {
-  //       // Check if the post has been liked by the current user
-  //       const likedPost = postsData[postIndex];
-  //       if (likedPost.likesBy.includes("anonymous")) {
-  //         console.log("Post already liked by this user");
-  //         return; // Do not allow liking again by the same user
-  //       }
-
-  //       // Update the likes count for the post
-  //       likedPost.likes += 1;
-  //       likedPost.likesBy.push("anonymous"); // Mark the post as liked by this user
-
-  //       // Update the specific post in the posts data array
-  //       postsData[postIndex] = likedPost;
-
-  //       // Save the updated posts data back to local storage
-  //       localStorage.setItem("posts", JSON.stringify(postsData));
-
-  //       // Update the UI with the new likes count
-  //       // You may need to refresh the posts or update the specific post in your state
-  //     } else {
-  //       console.error("Post not found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error handling like:", error);
-  //   }
-  // };
-
   //favorites
   const handleFavorite = (blogId) => {
     const userId = localStorage.getItem("userId");
@@ -269,26 +233,10 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // const logout = () => {
-  //   setLoggedIn(false); // Corrected to setLoggedIn(false)
-  //   localStorage.removeItem("userId");
-  //   toast.dark("Logout successful. GoodBye!", {
-  //     position: "top-right",
-  //     autoClose: 3000,
-  //     hideProgressBar: true,
-  //     closeOnClick: true,
-  //     pauseOnHover: false,
-  //     draggable: true,
-  //   });
-  //   navigate("/");
-
-  // };
-
   return (
     <>
       <AuthContext.Provider
         value={{
-          // logout,
           loggedIn,
           getBlogs,
           posts,

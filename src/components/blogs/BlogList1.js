@@ -5,13 +5,13 @@ import BlogCard from "./BlogCard";
 
 const BlogList = ({
   blogs,
-  handleLike, 
+  handleLike,
   handleFavorite,
   deletePost,
   showButtons = true,
 }) => {
   const itemsPerRow = 3;
-
+  console.log("blogs", blogs);
   const navigate = useNavigate();
 
   const handleCardClick = (blog) => {

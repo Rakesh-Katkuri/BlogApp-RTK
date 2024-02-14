@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-// import BlogForm from "../blog-form/BlogForm";
 import { toast } from "react-toastify";
-import { useAuth } from "../../authContext/AuthContext";
 import Header from "../common/Header";
 import BlogForm from "./BlogForm";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,8 +11,6 @@ import {
 } from "../../redux/actions/blogAction";
 
 const UpdatePostForm = () => {
-  const { getMyBlogs } = useAuth();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { post } = useSelector((state) => state.blogs);
@@ -32,12 +28,7 @@ const UpdatePostForm = () => {
   }, []);
 
   useEffect(() => {
-    // const postToUpdate = posts?.find((post) => post.id === parseInt(postId));
-    // console.log("parseint", postId);
-    // console.log("postToUpdate", postToUpdate);
-    // if (postToUpdate) {
     setUpdatedPost(post);
-    // }
   }, [post]);
 
   const handleInputChange = (e) => {

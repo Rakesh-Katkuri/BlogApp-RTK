@@ -7,7 +7,7 @@ import { getAllBlogsSlice } from "../../redux/actions/blogAction";
 import likesSlice from "../../redux/reducer/likesSlice";
 
 function MyBlog() {
-  const { deletePost, handleLike, handleFavorite } = useAuth();
+  const { deletePost, handleFavorite } = useAuth();
   const { posts } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 

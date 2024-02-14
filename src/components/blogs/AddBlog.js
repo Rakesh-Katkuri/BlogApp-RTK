@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../authContext/AuthContext";
 import { addBlogSlice } from "../../redux/actions/blogAction";
 import { useDispatch } from "react-redux";
-
 import "./style.css";
 import BlogForm from "./BlogForm";
 import { toast } from "react-toastify";
-import { useAuth } from "../../authContext/AuthContext";
 import Header from "../common/Header";
 
 const AddBlog = () => {
@@ -25,17 +22,8 @@ const AddBlog = () => {
     date: getCurrentDate(),
   });
   const [author, setAthor] = useState("");
-  const { createPost, getMyBlogs } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const firstName = localStorage.getItem("firstName");
-    const lastName = localStorage.getItem("lastName");
-    if (firstName && lastName) {
-      setAthor(`${firstName} ${lastName}`);
-    }
-  }, []);
 
   const handleChangeInput = (e) => {
     setPosts({ ...posts, [e.target.name]: e.target.value });
@@ -49,8 +37,6 @@ const AddBlog = () => {
     posts.userId = userId;
     posts.author = author;
     dispatch(addBlogSlice(posts));
-    // createPost(posts);
-    getMyBlogs();
     toast.success("Blog added successfully !.", {
       position: "top-right",
       autoClose: 3000,
@@ -61,6 +47,14 @@ const AddBlog = () => {
     });
     navigate("/");
   };
+
+  useEffect(() => {
+    const firstName = localStorage.getItem("firstName");
+    const lastName = localStorage.getItem("lastName");
+    if (firstName && lastName) {
+      setAthor(`${firstName} ${lastName}`);
+    }
+  }, []);
 
   return (
     <>

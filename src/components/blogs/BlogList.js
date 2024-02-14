@@ -5,23 +5,12 @@ import BlogDetail from "./BlogDetail";
 import "./style.css";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import {
-  deleteSlice,
-  getAllBlogsSlice,
-  getByIdSlice,
-} from "../../redux/actions/blogAction";
+import { getAllBlogsSlice, getByIdSlice } from "../../redux/actions/blogAction";
 import { updateLikes } from "../../redux/actions/likesAction";
 import axios from "axios";
 import { decrement, increment } from "../../redux/reducer/likesSlice";
 
-const BlogList = ({
-  blogs,
-  // handleLike,
-  handleFavorite,
-  deletePost,
-  showButtons = true,
-  likes,
-}) => {
+const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
   const userId = localStorage.getItem("userId");
   const itemsPerRow = 3; // Adjust the number of items per row
   const itemsPerPage = 6; // Adjust the number of items per page
@@ -30,8 +19,6 @@ const BlogList = ({
   const [likesUpdated, setLikesUpdated] = useState(false); // State to track likes update
 
   const [selectedBlog, setSelectedBlog] = useState(null);
-
-  // const { getMyBlogs } = useAuth();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,7 +36,6 @@ const BlogList = ({
 
   const handleUpdateNew = (id) => {
     dispatch(getByIdSlice(id));
-    // setSelectedBlog(null); // Close the dropdown after updating
   };
 
   const handleCardClick = (blog) => {
@@ -100,6 +86,7 @@ const BlogList = ({
         draggable: true,
       });
     }
+    dispatch(getAllBlogsSlice());
   };
 
   const capitalizeFirstLetter = (text) => {
@@ -244,7 +231,6 @@ const BlogList = ({
                       Read More
                     </Link>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
             </div>

@@ -1,14 +1,29 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../authContext/AuthContext";
 import BlogList from "../blogs/BlogList1";
 import Header from "./Header";
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from "../../redux/reducer/myFavoriteSlice";
 
 const MyFavorites = () => {
-  const { posts, handleLike, handleFavorite, deletePost } = useAuth();
-
+  const { handleLike, deletePost } = useAuth();
+  const dispatch = useDispatch();
+  const { posts } = useSelector((state) => state.blogs);
   const userId = localStorage.getItem("userId");
+  const { favorites } = useSelector((state) => state.myFavorites);
+  console.log("favorites", favorites);
+  // const userFavorites = favorites.filter((post) => favorites.includes(post.id));
 
-  const userFavorites = posts.filter((post) => post.favorites.includes(userId));
+  const handleFavorite = (blogId) => {
+    if (favorites.includes(blogId)) {
+      dispatch(removeFromFavorites(blogId));
+    } else {
+      // dispatch(addToFavorites(blogId));
+    }
+  };
 
   return (
     <div className="custom-bg">
@@ -18,10 +33,9 @@ const MyFavorites = () => {
         textAlign="center"
         backgroundColor="#F5F5F3"
       />
-      {userFavorites.length > 0 ? (
-        // Using BlogList from BlogList1 component to display userFavorites
+      {favorites.length > 0 ? (
         <BlogList
-          blogs={userFavorites}
+          blogs={favorites}
           handleLike={handleLike}
           handleFavorite={handleFavorite}
           deletePost={deletePost}
@@ -36,3 +50,4 @@ const MyFavorites = () => {
 };
 
 export default MyFavorites;
+//kkklk

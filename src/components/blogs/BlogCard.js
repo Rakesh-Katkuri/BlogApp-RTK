@@ -1,13 +1,6 @@
 import React from "react";
 
-const BlogCard = ({
-  blog,
-  handleLike,
-  handleFavorite,
-  deletePost,
-  // showButtons,
-  handleCardClick,
-}) => {
+const BlogCard = ({ blog, handleLike, handleFavorite, handleCardClick }) => {
   const userId = localStorage.getItem("userId");
 
   const capitalizeFirstLetter = (text) => {

@@ -82,40 +82,6 @@ const BlogDetail = () => {
           </div>
         </div>
       </div>
-
-      {/* <div className="container d-flex justify-content-center align-items-center  m-5">
-        <div className="card text-center w-75 rounded-0">
-          <div className="card-header">
-          <div className="author-date-container">
-                    <div className="profile-circle rounded-circle d-flex justify-content-between align-items-center">
-                      {blog.author.substring(0, 1).toUpperCase()}
-                    </div>
-                    <div className="author-date">
-                      <div className="author">{blog.author}</div>
-                      <div className="date">{blog.date}</div>
-                    </div>
-                  </div>
-          </div>
-          <ul className="list-group list-group-flush">
-            <li className="list-group-item">
-              <img
-                src={blog.imageUrl}
-                className="card-img-top img-fluid align-self-center rounded-0"
-                alt="Blog Cover"
-                style={{ height: "30rem" }}
-              />
-            </li>
-            <li className="list-group-item">
-            <h1 className="card-title text-center mb-auto">{blog.title}</h1>
-              {blog.description.split("\n").map((paragraph, index) => (
-                <p key={index} className="card-text mt-auto">
-                  {paragraph}
-                </p>
-              ))}
-            </li>
-          </ul>
-        </div>
-      </div> */}
     </>
   );
 };

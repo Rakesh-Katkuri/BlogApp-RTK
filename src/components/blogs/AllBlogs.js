@@ -9,22 +9,10 @@ import Header from "../common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogsSlice } from "../../redux/actions/blogAction";
 import { updateLikes } from "../../redux/actions/likesAction";
-// import AutoCarousel from "../home/AutoCarousel";
-
-//redux
 import { increment, decrement } from "../../redux/reducer/likesSlice";
-// import { updateLikes } from "../redux/actions/likesAction";
+import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
 
 const AllBlogs = () => {
-  //Accessing posts and update fun from ContexApi
-  const {
-    // posts,
-    getBlogs,
-    updatePost,
-    handleFavorite,
-    // handleLike,
-  } = useAuth();
-
   //Retrieving the userId from LocalStorage
   const userId = localStorage.getItem("userId");
   const location = useLocation(); // Get the current location
@@ -50,14 +38,6 @@ const AllBlogs = () => {
     dispatch(updateLikes(blogId))
       .unwrap()
       .then(() => {
-        // toast.success("Post Liked!", {
-        //   position: "top-center",
-        //   autoClose: 1000,
-        //   hideProgressBar: false,
-        //   closeOnClick: true,
-        //   pauseOnHover: true,
-        //   draggable: true,
-        // });
         dispatch(increment()); // Dispatch increment action after liking the post
       })
       .catch((error) => {
@@ -73,7 +53,7 @@ const AllBlogs = () => {
       });
   };
   const handleFavorites = (blogId) => {
-    handleFavorite(blogId);
+    dispatch(updateMyFavorite(blogId));
   };
 
   //rendering all blog posts
@@ -94,7 +74,7 @@ const AllBlogs = () => {
             blogs={posts}
             handleLike={handleLikes}
             handleFavorite={handleFavorites}
-            deletePost={updatePost}
+            deletePost={posts}
             showButtons={false}
             likes={likes}
           />
