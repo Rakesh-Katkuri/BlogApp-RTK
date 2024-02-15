@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useAuth } from "../../authContext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import BlogDetail from "./BlogDetail";
 import "./style.css";
@@ -111,10 +110,10 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
     for (let i = 0; i < currentPosts.length; i += itemsPerRow) {
       const row = currentPosts.slice(i, i + itemsPerRow);
       rows.push(
-        <div className="row custom-row ms-1 me-1 mt-3 mb-2" key={i}>
+        <div className="row custom-row ms-1 me-1 mb-2" key={i}>
           {row.map((blog) => (
             <div
-              className={`custom-col-bg col-md-${12 / itemsPerRow}`}
+              className={`custom-col-bg m-3 col-md-${12 / itemsPerRow}`}
               key={blog.id}
             >
               <div className="card rounded-0 m-1">
@@ -216,7 +215,7 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
                     >
                       <i
                         className={`fas fa-heart fs-5 ${
-                          blog.favorites.includes(userId) ? "text-danger" : ""
+                          blog.favorites?.includes(userId) ? "text-danger" : ""
                         }`}
                       ></i>
                     </button>
@@ -231,6 +230,7 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
                       Read More
                     </Link>
                   </div>
+                  {/* </div> */}
                 </div>
               </div>
             </div>

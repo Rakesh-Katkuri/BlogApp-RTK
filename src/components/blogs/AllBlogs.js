@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useAuth } from "../../authContext/AuthContext";
+import React, { useEffect } from "react";
 import "./style.css";
 import BlogList from "./BlogList";
 import { useLocation } from "react-router-dom";
@@ -34,7 +33,6 @@ const AllBlogs = () => {
   }, [location.pathname]);
 
   const handleLikes = (blogId) => {
-    // handleLike(blogId);
     dispatch(updateLikes(blogId))
       .unwrap()
       .then(() => {

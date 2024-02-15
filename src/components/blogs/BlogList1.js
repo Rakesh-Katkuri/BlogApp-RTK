@@ -7,7 +7,6 @@ const BlogList = ({
   blogs,
   handleLike,
   handleFavorite,
-  deletePost,
   showButtons = true,
 }) => {
   const itemsPerRow = 3;
@@ -28,7 +27,6 @@ const BlogList = ({
               handleLike={handleLike}
               handleFavorite={handleFavorite}
               showButtons={showButtons}
-              deletePost={deletePost}
               handleCardClick={() => handleCardClick(blog)}
             />
           </div>

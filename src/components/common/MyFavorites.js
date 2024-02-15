@@ -1,29 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "../../authContext/AuthContext";
-import BlogList from "../blogs/BlogList1";
+import BlogList from "../blogs/BlogList";
 import Header from "./Header";
 import {
   addToFavorites,
   removeFromFavorites,
 } from "../../redux/reducer/myFavoriteSlice";
+import { useParams } from "react-router-dom";
+import { updateLikes } from "../../redux/actions/likesAction";
+import { increment } from "../../redux/reducer/likesSlice";
+import { toast } from "react-toastify";
+// import { fetchFavorites } from "../../redux/actions/myFavoriteAction";
 
 const MyFavorites = () => {
-  const { handleLike, deletePost } = useAuth();
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.blogs);
-  const userId = localStorage.getItem("userId");
   const { favorites } = useSelector((state) => state.myFavorites);
-  console.log("favorites", favorites);
-  // const userFavorites = favorites.filter((post) => favorites.includes(post.id));
+
+  const handleLikes = (blogId) => {
+    dispatch(updateLikes(blogId))
+      .unwrap()
+      .then(() => {
+        dispatch(increment()); // Dispatch increment action after liking the post
+      })
+      .catch((error) => {
+        console.error("Error liking post", error);
+        toast.error("Error liking post", {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      });
+  };
 
   const handleFavorite = (blogId) => {
     if (favorites.includes(blogId)) {
+      // Remove from favorites if already favorited
       dispatch(removeFromFavorites(blogId));
-    } else {
-      // dispatch(addToFavorites(blogId));
     }
   };
+  // useEffect(() => {
+  //   dispatch(fetchFavorites(userId));
+  // }, [dispatch, userId]);
 
   return (
     <div className="custom-bg">
@@ -36,9 +57,8 @@ const MyFavorites = () => {
       {favorites.length > 0 ? (
         <BlogList
           blogs={favorites}
-          handleLike={handleLike}
+          handleLike={handleLikes}
           handleFavorite={handleFavorite}
-          deletePost={deletePost}
         />
       ) : (
         <div className="text-center bg-secondary">

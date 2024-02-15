@@ -1,15 +1,8 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  Navigate,
-  Outlet,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import MyBlog from "./components/blogs/MyBlog";
 import AddBlog from "./components/blogs/AddBlog";
-import AuthProvider from "./authContext/AuthContext";
 // import Login from "./userAuthentication/LoginForm";
 // import Register from "./userAuthentication/RegisterForm";
 import UpdatePostForm from "./components/blogs/UpdatePostFom";
@@ -51,73 +44,71 @@ const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
-        <AuthProvider>
-          <Navbar2 />
-          <Routes>
-            <Route path="/" element={<AllBlogs />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Register />} />
+        <Navbar2 />
+        <Routes>
+          <Route path="/" element={<AllBlogs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Register />} />
 
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <AllBlogs />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/my-blogs"
-              element={
-                <PrivateRoute>
-                  <MyBlog />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/add-blog"
-              element={
-                <PrivateRoute>
-                  <AddBlog />{" "}
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/update/:postId"
-              element={
-                <PrivateRoute>
-                  <UpdatePostForm />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/my-favorite/blogs"
-              element={
-                <PrivateRoute>
-                  <MyFavorites />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/blog/:id"
-              element={
-                <PrivateRoute>
-                  <BlogDetail />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/search-results"
-              element={
-                <PrivateRoute>
-                  <SearchedBlogs />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
-          <Footer />
-          <ToastContainer />
-        </AuthProvider>
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <AllBlogs />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/my-blogs"
+            element={
+              <PrivateRoute>
+                <MyBlog />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/add-blog"
+            element={
+              <PrivateRoute>
+                <AddBlog />{" "}
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/update/:postId"
+            element={
+              <PrivateRoute>
+                <UpdatePostForm />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/my-favorite/blogs"
+            element={
+              <PrivateRoute>
+                <MyFavorites />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/blog/:id"
+            element={
+              <PrivateRoute>
+                <BlogDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/search-results"
+            element={
+              <PrivateRoute>
+                <SearchedBlogs />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+        <Footer />
+        <ToastContainer />
       </BrowserRouter>
     </div>
   );

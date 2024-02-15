@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../authContext/AuthContext";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const Navbar2 = () => {
-  const { posts } = useAuth();
+  const { posts } = useSelector((state) => state.blogs);
   const [activeLink, setActiveLink] = useState("");
   const location = useLocation();
   const navigate = useNavigate();

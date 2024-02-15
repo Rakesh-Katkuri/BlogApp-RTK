@@ -8,7 +8,6 @@ const SearchedBlogs = ({
   blog,
   handleLike,
   handleFavorite,
-  deletePost,
   showButtons = true,
 }) => {
   const location = useLocation();
@@ -45,7 +44,6 @@ const SearchedBlogs = ({
                   handleLike={handleLike}
                   handleFavorite={handleFavorite}
                   showButtons={showButtons}
-                  deletePost={deletePost}
                   handleCardClick={() => handleCardClick(post)}
                 />
               </div>

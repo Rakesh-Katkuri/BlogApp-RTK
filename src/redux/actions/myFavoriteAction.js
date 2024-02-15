@@ -28,3 +28,12 @@ export const updateMyFavorite = createAsyncThunk(
     }
   }
 );
+
+// export const fetchFavorites = createAsyncThunk(
+//   "favorites/fetchFavorites",
+//   async (blogId) => {
+//     const response = await axios.get(`http://localhost:3002/posts/${blogId}`);
+//     console.log("respones fav ", response);
+//     return response.data;
+//   }
+// );

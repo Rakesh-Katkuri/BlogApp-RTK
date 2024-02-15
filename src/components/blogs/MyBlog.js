@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import BlogList from "./BlogList";
-import { useAuth } from "../../authContext/AuthContext";
 import Header from "../common/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogsSlice } from "../../redux/actions/blogAction";
 import likesSlice from "../../redux/reducer/likesSlice";
+import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
 
 function MyBlog() {
-  const { deletePost, handleFavorite } = useAuth();
   const { posts } = useSelector((state) => state.blogs);
   const dispatch = useDispatch();
 
@@ -21,7 +20,7 @@ function MyBlog() {
     dispatch(likesSlice(blogId));
   };
   const handleFavorites = (blogId) => {
-    handleFavorite(blogId);
+    dispatch(updateMyFavorite(blogId));
   };
 
   useEffect(() => {
@@ -44,7 +43,6 @@ function MyBlog() {
             blogs={myBlog}
             handleLike={handleLikes}
             handleFavorite={handleFavorites}
-            deletePost={deletePost}
           />
         ) : (
           <p>no blogs</p>

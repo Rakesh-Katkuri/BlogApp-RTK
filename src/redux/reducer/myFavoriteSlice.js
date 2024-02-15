@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateMyFavorite } from "../actions/myFavoriteAction";
+import {
+  updateMyFavorite,
+  // fetchFavorites
+} from "../actions/myFavoriteAction";
+import axios from "axios";
 
 const initialState = {
   favorites: [],
@@ -43,6 +47,27 @@ const myFavoriteSlice = createSlice({
       );
       state.error = "error";
     });
+    //
+    // builder.addCase(fetchFavorites.pending, (state, action) => {
+    //   state.loading = true;
+    //   state.error = null;
+    //   console.log("updateMyFavorite slice action add case", action.payload);
+    // });
+
+    // builder.addCase(fetchFavorites.fulfilled, (state, action) => {
+    //   console.log("updateMyFavorite slice action", action);
+    //   state.loading = false;
+    //   console.log("action payload", action.payload);
+    //   state.favorites = [action.payload];
+    // });
+    // builder.addCase(fetchFavorites.rejected, (state, action) => {
+    //   state.loading = false;
+    //   console.log(
+    //     "updateMyFavorite slice action reject payload",
+    //     action.payload
+    //   );
+    //   state.error = "error";
+    // });
   },
 });
 
