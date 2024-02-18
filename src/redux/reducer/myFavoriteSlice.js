@@ -23,7 +23,7 @@ const myFavoriteSlice = createSlice({
     },
     removeFromFavorites(state, action) {
       const blogId = action.payload;
-      state.favorites = state.favorites.filter((id) => id !== blogId);
+      state.favorites = state.favorites.filter((item) => item.id !== blogId);
     },
   },
   extraReducers: (builder) => {
@@ -37,7 +37,7 @@ const myFavoriteSlice = createSlice({
       console.log("updateMyFavorite slice action", action);
       state.loading = false;
       console.log("action payload", action.payload);
-      state.favorites = [action.payload];
+      state.favorites.push(action.payload);
     });
     builder.addCase(updateMyFavorite.rejected, (state, action) => {
       state.loading = false;

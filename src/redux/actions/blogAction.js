@@ -62,6 +62,31 @@ export const deleteSlice = createAsyncThunk(
   }
 );
 
+// Async thunk action to delete blog posts by user ID
+export const deleteBlogsByUserId = createAsyncThunk(
+  "blogs/deleteBlogsByUserId",
+  async (userId) => {
+    // Fetch all blog posts
+    const response = await axios.get(`http://localhost:3002/posts`);
+    const allPosts = response.data;
+
+    // Filter out blog posts associated with the specified user ID
+    const postsToDelete = allPosts.filter((post) => post.userId === userId);
+
+    // Delete each blog post associated with the user ID
+    const deletionPromises = postsToDelete.map(async (post) => {
+      await axios.delete(`http://localhost:3002/posts/${post.id}`);
+      console.log(`Deleted blog post with ID ${post.id}`);
+    });
+
+    // Wait for all deletion operations to complete
+    await Promise.all(deletionPromises);
+
+    // Return the number of deleted blog posts (optional)
+    return postsToDelete.length;
+  }
+);
+
 // export const blogDetailSlice = createAsyncThunk(
 //   "posts/blogDetail",
 //   async (Id) => {

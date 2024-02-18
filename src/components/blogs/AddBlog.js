@@ -58,7 +58,7 @@ const AddBlog = () => {
 
   return (
     <>
-      <div className="custom-bg">
+      <div className="mt-0 custom-bg">
         <Header
           HeaderText="Create Your Blog Here"
           CaptionText="At PixelPoet, Create your blog, share your Ideas, and become a part of our writing community. Your creativity our platform"

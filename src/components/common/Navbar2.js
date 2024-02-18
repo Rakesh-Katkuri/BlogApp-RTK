@@ -1,20 +1,24 @@
+//changed to material ui
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchResults } from "../../redux/reducer/searchSlice";
 
 const Navbar2 = () => {
   const { posts } = useSelector((state) => state.blogs);
   const [activeLink, setActiveLink] = useState("");
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
+  const role = localStorage.getItem("role");
 
   //for search blogs
   const [searchActive, setSearchActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  // const [searchResults, setSearchResults] = useState([]);
 
   const handleLinkClick = (path) => {
     setActiveLink(path);
@@ -34,7 +38,6 @@ const Navbar2 = () => {
         pauseOnHover: true,
         draggable: true,
       });
-      setSearchResults([]);
     } else {
       const filteredPosts = posts.filter(
         (post) =>
@@ -43,9 +46,10 @@ const Navbar2 = () => {
         // ||
         // post.description.toLowerCase().includes(term)
       );
-      setSearchResults(filteredPosts);
+      dispatch(setSearchResults(filteredPosts));
       setSearchTerm("");
-      navigate("/search-results", { state: { searchResults: filteredPosts } });
+      navigate("/search-results");
+      // navigate("/search-results", { state: { searchResults: filteredPosts } });
     }
   };
 
@@ -54,6 +58,7 @@ const Navbar2 = () => {
     localStorage.removeItem("userId");
     localStorage.removeItem("firstName");
     localStorage.removeItem("lastName");
+    localStorage.removeItem("role");
     toast.dark("Logout successful.", {
       position: "top-right",
       autoClose: 3000,
@@ -91,7 +96,7 @@ const Navbar2 = () => {
           <Link to="/" class=" navbar-brand">
             <h2>
               <strong style={customLogo} className="ms-2 text-white">
-                PixelPoet
+                Blog App
               </strong>
             </h2>
           </Link>
@@ -206,6 +211,23 @@ const Navbar2 = () => {
                           My Favorites
                         </Link>
                       </li>
+                      {/* authors */}
+                      {role === "admin" ? (
+                        <li className="dropdown-item">
+                          <Link
+                            to="/authors-list"
+                            className={
+                              activeLink === "/my-favorite/blogs"
+                                ? "nav-link active"
+                                : "nav-link"
+                            }
+                            onClick={() => handleLinkClick("/authors-list")}
+                          >
+                            Authors List
+                          </Link>
+                        </li>
+                      ) : null}
+                      {/* authors */}
                       <li className="dropdown-item ">
                         <Link
                           to="/login"

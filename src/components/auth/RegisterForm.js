@@ -7,6 +7,7 @@ import "./AuthStyle.css";
 const Register = () => {
   const [user, setUser] = useState({});
   const [errors, setErrors] = useState({});
+  const [role, setRole] = useState("user");
 
   const navigate = useNavigate();
 
@@ -24,6 +25,7 @@ const Register = () => {
       lastName: user.lastName,
       email: user.email,
       password: user.password,
+      role: "user",
     };
     if (Object.keys(currentErrors).length === 0) {
       try {
@@ -32,6 +34,7 @@ const Register = () => {
         localStorage.setItem("userId", response.data.id);
         localStorage.setItem("firstName", user.firstName);
         localStorage.setItem("lastName", user.lastName);
+        localStorage.setItem("role", role);
         navigate("/");
       } catch (error) {
         console.log("error in post request", error);
@@ -123,6 +126,15 @@ const Register = () => {
               {errors.password && (
                 <span style={errorValidation}>{errors.password}</span>
               )}
+            </div>
+            <div className="mb-2">
+              <input
+                name="role"
+                id="role"
+                type="hidden"
+                value={role}
+                className="form-control d-none"
+              />
             </div>
 
             <div className="d-grid">

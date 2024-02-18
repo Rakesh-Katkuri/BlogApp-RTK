@@ -52,7 +52,7 @@ const Footer = () => {
         <div class="container p-4">
           <div class="row">
             <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-              <h2 class="text">PixelPoet</h2>
+              <h2 class="text">Blog App</h2>
 
               <p>My Photography Blog</p>
               <p>Crafting stories in every frame</p>
@@ -123,7 +123,7 @@ const Footer = () => {
         <div class="text-center p-3" style={{ backgroundColor: "#364037" }}>
           © 2024 Copyright:
           <a class="text-white" href="">
-            PixelPoet.com
+            BlogApp.com
           </a>
         </div>
       </footer>

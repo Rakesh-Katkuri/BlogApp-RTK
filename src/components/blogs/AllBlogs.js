@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import BlogList from "./BlogList";
 import { useLocation } from "react-router-dom";
@@ -10,16 +10,20 @@ import { getAllBlogsSlice } from "../../redux/actions/blogAction";
 import { updateLikes } from "../../redux/actions/likesAction";
 import { increment, decrement } from "../../redux/reducer/likesSlice";
 import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
+import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
 
 const AllBlogs = () => {
   //Retrieving the userId from LocalStorage
   const userId = localStorage.getItem("userId");
-  const location = useLocation(); // Get the current location
-
+  const role = localStorage.getItem("role");
   const dispatch = useDispatch();
+
+  const location = useLocation(); // Get the current location
+  const [updatingFavorite, setUpdatingFavorite] = useState(false);
   const { posts } = useSelector((state) => state.blogs);
   const { likes } = useSelector((state) => state.likes); // Get the likes from the Redux store
   console.log("useSelector", posts);
+  const { favorites } = useSelector((state) => state.myFavorites);
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -50,8 +54,28 @@ const AllBlogs = () => {
         });
       });
   };
-  const handleFavorites = (blogId) => {
-    dispatch(updateMyFavorite(blogId));
+
+  const handleFavorites = async (blogId) => {
+    if (updatingFavorite) return; // Prevent concurrent updates
+    try {
+      setUpdatingFavorite(true); // Set updatingFavorite to true
+      // Check if blogId is in favorites
+      const isFavorited = favorites.some((item) => item.id == blogId);
+      console.log("isFavorited", isFavorited);
+      if (isFavorited) {
+        // Remove from favorites if already favorited
+        await dispatch(removeFromFavorites(blogId));
+        console.log("Removed from favorites");
+      } else {
+        // Add to favorites if not favorited
+        await dispatch(updateMyFavorite(blogId));
+        console.log("Added to favorites");
+      }
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+    } finally {
+      setUpdatingFavorite(false); // Reset updatingFavorite to false
+    }
   };
 
   //rendering all blog posts
@@ -59,14 +83,15 @@ const AllBlogs = () => {
     <>
       {/* <AutoCarousel /> */}
 
-      <div className="mt-2 custom-bg pt-5">
+      <div className="mt-0 custom-bg">
         <Header
-          HeaderText="Welcome to Our Blog"
+          HeaderText="Welcome to The Home Page"
           CaptionText="start your blog today and join a community of writers and readers who are passionate about sharing their stories and ideas."
           textAlign="center"
           backgroundColor="#34495E"
           color="white"
         />
+
         {posts?.length > 0 ? (
           <BlogList
             blogs={posts}

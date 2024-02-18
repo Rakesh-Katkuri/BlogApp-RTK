@@ -37,9 +37,11 @@ const MyFavorites = () => {
   };
 
   const handleFavorite = (blogId) => {
+    console.log("yugandhar 1");
     if (favorites.includes(blogId)) {
       // Remove from favorites if already favorited
       dispatch(removeFromFavorites(blogId));
+      console.log("yugandhar 2");
     }
   };
   // useEffect(() => {
@@ -47,7 +49,7 @@ const MyFavorites = () => {
   // }, [dispatch, userId]);
 
   return (
-    <div className="custom-bg">
+    <div className="mt-0 custom-bg">
       <Header
         HeaderText="Your Favorite Picks"
         CaptionText="Explore your curated collection of favorite blogs. Each one holds a special place in your reading journey."

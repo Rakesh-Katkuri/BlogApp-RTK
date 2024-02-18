@@ -73,7 +73,7 @@ const BlogCard = ({ blog, handleLike, handleFavorite, handleCardClick }) => {
       </div>
       <button
         type="button"
-        class="btn btn-dark rounded-0 m-3 custom-readmore "
+        className="btn btn-dark rounded-0 m-3 custom-readmore "
         onClick={() => handleCardClick(blog)}
       >
         Read More

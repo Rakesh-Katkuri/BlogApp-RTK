@@ -55,16 +55,32 @@ const Login = () => {
           localStorage.setItem("userId", foundUser[0].id);
           localStorage.setItem("firstName", foundUser[0].firstName);
           localStorage.setItem("lastName", foundUser[0].lastName);
+          localStorage.setItem("role", foundUser[0].role);
           setFirstName(foundUser.firstName);
-          toast.success("Login successful. Welcome!", {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-          });
-          navigate("/", { replace: true });
+          console.log("login 111");
+          if (foundUser[0].role === "user") {
+            console.log("login 222");
+            toast.success("User Login successful. Welcome!", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            navigate("/", { replace: true });
+          } else if (foundUser[0].role === "admin") {
+            toast.success("Admin login successful. Redirecting...", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+            });
+            navigate("/", { replace: true });
+            // navigate("/admin-dashboard", { replace: true });
+          }
         }
         console.log("login", foundUser);
       } catch (error) {

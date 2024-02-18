@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addBlogSlice,
   blogDetailSlice,
+  deleteBlogsByUserId,
   deleteSlice,
   getByIdSlice,
   updateBlogSlice,
@@ -99,6 +100,22 @@ export const blogsSlice = createSlice({
       console.log("deleteSlice action reject payload", action.payload);
       state.error = "error";
     });
+
+    // Case for delete blog posts
+    builder.addCase(deleteBlogsByUserId.pending, (state, action) => {
+      state.loading = true;
+      console.log("deleteSlice action add case", action.payload);
+    });
+    builder.addCase(deleteBlogsByUserId.fulfilled, (state, action) => {
+      console.log("deleteSlice action", action);
+      state.loading = false;
+    });
+    builder.addCase(deleteBlogsByUserId.rejected, (state, action) => {
+      state.loading = false;
+      console.log("deleteSlice action reject payload", action.payload);
+      state.error = "error";
+    });
+
     //blogdetail
     // builder.addCase(blogDetailSlice.pending, (state, action) => {
     //   state.loading = true;

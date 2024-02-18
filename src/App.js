@@ -19,6 +19,8 @@ import PrivateRoute from "./private-route/PrivateRoute";
 import Login from "./components/auth/LoginForm";
 import Register from "./components/auth/RegisterForm";
 import Footer from "./components/common/Footer";
+import AdminDashboard from "./components/admin/AdminDashboard";
+import AuthorsPage from "./components/admin/AuthorsPage";
 
 const App = () => {
   const userId = localStorage.getItem("userId");
@@ -45,6 +47,7 @@ const App = () => {
     <div className="App">
       <BrowserRouter>
         <Navbar2 />
+
         <Routes>
           <Route path="/" element={<AllBlogs />} />
           <Route path="/login" element={<Login />} />
@@ -58,6 +61,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
+
           <Route
             path="/my-blogs"
             element={
@@ -103,6 +107,23 @@ const App = () => {
             element={
               <PrivateRoute>
                 <SearchedBlogs />
+              </PrivateRoute>
+            }
+          />
+          {/* admin */}
+          <Route
+            path="/admin-dashboard"
+            element={
+              <PrivateRoute>
+                <AdminDashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/authors-list"
+            element={
+              <PrivateRoute>
+                <AuthorsPage />
               </PrivateRoute>
             }
           />

@@ -2,6 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import likesSlice from "./reducer/likesSlice";
 import blogsSlice from "./reducer/blogsSlice";
 import myFavoriteSlice from "./reducer/myFavoriteSlice";
+import searchSlice from "./reducer/searchSlice";
+import AllAuthorsSlice from "./reducer/AllAuthorsSlice";
 
 // Configure the Redux store using `configureStore` from Redux Toolkit
 export const store = configureStore({
@@ -13,6 +15,10 @@ export const store = configureStore({
     blogs: blogsSlice,
     // `myFavoriteSlice` reducer manages the state related to favorite blogs
     myFavorites: myFavoriteSlice,
+    //
+    search: searchSlice,
+    //
+    users: AllAuthorsSlice,
   },
   // Apply middleware to handle additional functionality like async actions
   middleware: (getDefaultMiddleware) =>

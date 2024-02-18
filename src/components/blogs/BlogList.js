@@ -1,15 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBlogsSlice, getByIdSlice } from "../../redux/actions/blogAction";
+import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
+import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
+import { updateLikes } from "../../redux/actions/likesAction";
+import { decrement, increment } from "../../redux/reducer/likesSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import axios from "axios";
+
 import BlogDetail from "./BlogDetail";
 import "./style.css";
-import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { getAllBlogsSlice, getByIdSlice } from "../../redux/actions/blogAction";
-import { updateLikes } from "../../redux/actions/likesAction";
-import axios from "axios";
-import { decrement, increment } from "../../redux/reducer/likesSlice";
-
-const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
+// add search
+const BlogList = ({ blogs, showButtons = true, likes }) => {
   const userId = localStorage.getItem("userId");
   const itemsPerRow = 3; // Adjust the number of items per row
   const itemsPerPage = 6; // Adjust the number of items per page
@@ -18,15 +21,25 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
   const [likesUpdated, setLikesUpdated] = useState(false); // State to track likes update
 
   const [selectedBlog, setSelectedBlog] = useState(null);
+  const [updatingFavorite, setUpdatingFavorite] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { favorites } = useSelector((state) => state.myFavorites);
 
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
   const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
 
   const totalPages = Math.ceil(blogs.length / itemsPerPage);
+
+  useEffect(() => {
+    dispatch(getAllBlogsSlice());
+  }, []);
+
+  // useEffect(() => {
+  //   dispatch(getAllBlogsSlice());
+  // }, [favorites]);
 
   const paginate = (pageNumber) => {
     setSelectedBlog(null); // Close the dropdown when paginating
@@ -43,6 +56,19 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
   };
 
   const handleLike = async (blogId) => {
+    if (!userId) {
+      // If user is not logged in, show toast message and return
+      toast.warning("Please login to like the post", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
     try {
       const response = await dispatch(updateLikes(blogId));
       const updatedPost = response.payload;
@@ -88,6 +114,98 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
     dispatch(getAllBlogsSlice());
   };
 
+  const handleFavorite = async (blogId) => {
+    if (!userId) {
+      // If user is not logged in, show toast message and return
+      toast.warning("Please login to favorite the post", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    try {
+      // Toggle the favorite status in the component state
+      const isFavorited = favorites.some((item) => item.id == blogId);
+      let updatedFavorites = [];
+      if (isFavorited) {
+        updatedFavorites = favorites.filter((item) => item.id !== blogId);
+      } else {
+        updatedFavorites = [...favorites, { id: blogId }];
+      }
+
+      // Update the component state immediately
+      dispatch(updateMyFavorite(updatedFavorites));
+
+      // Dispatch the action to update favorites in the Redux store
+      if (isFavorited) {
+        // Remove from favorites if already favorited
+        await dispatch(removeFromFavorites(blogId));
+        toast.success("Post removed from favorites", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      } else {
+        // Add to favorites if not favorited
+        await dispatch(updateMyFavorite(blogId));
+        toast.success("Post added to favorites", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
+      }
+
+      // Fetch blogs again to get the updated data
+      dispatch(getAllBlogsSlice());
+    } catch (error) {
+      console.error("Error updating favorites:", error);
+      toast.error("Error updating favorites", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+    }
+  };
+  //newwwm m k l
+  // const handleFavorite = async (blogId) => {
+  //   if (updatingFavorite) return; // Prevent concurrent updates
+  //   try {
+  //     setUpdatingFavorite(true); // Set updatingFavorite to true
+  //     // Check if blogId is in favorites
+  //     const isFavorited = favorites.some((item) => item.id == blogId);
+  //     console.log("isFavorited", isFavorited);
+  //     if (isFavorited) {
+  //       // Remove from favorites if already favorited
+  //       await dispatch(removeFromFavorites(blogId));
+
+  //       console.log("Removed from favorites");
+  //     } else {
+  //       // Add to favorites if not favorited
+  //       await dispatch(updateMyFavorite(blogId));
+  //       console.log("Added to favorites");
+  //     }
+  //     dispatch(getAllBlogsSlice());
+  //   } catch (error) {
+  //     console.error("Error updating favorites:", error);
+  //   } finally {
+  //     setUpdatingFavorite(false); // Reset updatingFavorite to false
+  //   }
+  // };
+
   const capitalizeFirstLetter = (text) => {
     if (!text) return "";
     return text.charAt(0).toUpperCase() + text.slice(1);
@@ -100,10 +218,6 @@ const BlogList = ({ blogs, handleFavorite, showButtons = true, likes }) => {
       }
     });
   };
-
-  useEffect(() => {
-    dispatch(getAllBlogsSlice());
-  }, []);
 
   const renderBlogs = () => {
     const rows = [];
