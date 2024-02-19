@@ -4,6 +4,7 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from "../reducer/myFavoriteSlice";
+import { toast } from "react-toastify";
 
 export const updateMyFavorite = createAsyncThunk(
   "favorites/updateFavorites",
@@ -16,11 +17,27 @@ export const updateMyFavorite = createAsyncThunk(
       const userFavorites = post.favorites.includes(userId);
 
       if (userFavorites) {
-        post.favorites = post.favorites.filter((id) => id !== userId);
         dispatch(removeFromFavorites(blogId)); // Update Redux state to remove from favorites
+        post.favorites = post.favorites.filter((id) => id !== userId);
+        toast.success("Post removed from favorites", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       } else {
         post.favorites.push(userId);
         dispatch(addToFavorites(blogId)); // Update Redux state to add to favorites
+        toast.success("Post added to favorites", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+        });
       }
 
       const upadatedPostData = await axios.put(

@@ -12,7 +12,7 @@ import axios from "axios";
 import BlogDetail from "./BlogDetail";
 import "./style.css";
 // add search
-const BlogList = ({ blogs, showButtons = true, likes }) => {
+const BlogList = ({ blogs, showButtons = true }) => {
   const userId = localStorage.getItem("userId");
   const itemsPerRow = 3; // Adjust the number of items per row
   const itemsPerPage = 6; // Adjust the number of items per page
@@ -26,6 +26,7 @@ const BlogList = ({ blogs, showButtons = true, likes }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { favorites } = useSelector((state) => state.myFavorites);
+  const { posts } = useSelector((state) => state.blogs);
 
   const indexOfLastPost = currentPage * itemsPerPage;
   const indexOfFirstPost = indexOfLastPost - itemsPerPage;
@@ -33,9 +34,9 @@ const BlogList = ({ blogs, showButtons = true, likes }) => {
 
   const totalPages = Math.ceil(blogs.length / itemsPerPage);
 
-  useEffect(() => {
-    dispatch(getAllBlogsSlice());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAllBlogsSlice());
+  // }, []);
 
   // useEffect(() => {
   //   dispatch(getAllBlogsSlice());
@@ -127,47 +128,30 @@ const BlogList = ({ blogs, showButtons = true, likes }) => {
       });
       return;
     }
+    // await dispatch(updateMyFavorite(blogId));
 
     try {
-      // Toggle the favorite status in the component state
-      const isFavorited = favorites.some((item) => item.id == blogId);
-      let updatedFavorites = [];
-      if (isFavorited) {
-        updatedFavorites = favorites.filter((item) => item.id !== blogId);
-      } else {
-        updatedFavorites = [...favorites, { id: blogId }];
-      }
-
-      // Update the component state immediately
-      dispatch(updateMyFavorite(updatedFavorites));
+      // const { posts } = useSelector((state) => state.blogs);
+      // Check if the post is already favorited by the user
+      const isFavorited = favorites.some((item) => {
+        const post = posts.find((p) => p.id === item.blogId);
+        return post && post.userId === userId && item.blogId === blogId;
+      });
 
       // Dispatch the action to update favorites in the Redux store
       if (isFavorited) {
         // Remove from favorites if already favorited
-        await dispatch(removeFromFavorites(blogId));
-        toast.success("Post removed from favorites", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
+        await dispatch(updateMyFavorite(blogId));
+
+        // Fetch blogs again to get the updated data
+        dispatch(getAllBlogsSlice());
       } else {
         // Add to favorites if not favorited
         await dispatch(updateMyFavorite(blogId));
-        toast.success("Post added to favorites", {
-          position: "top-center",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      }
 
-      // Fetch blogs again to get the updated data
-      dispatch(getAllBlogsSlice());
+        // Fetch blogs again to get the updated data
+        dispatch(getAllBlogsSlice());
+      }
     } catch (error) {
       console.error("Error updating favorites:", error);
       toast.error("Error updating favorites", {
@@ -180,6 +164,74 @@ const BlogList = ({ blogs, showButtons = true, likes }) => {
       });
     }
   };
+
+  //original
+  // const handleFavorite = async (blogId) => {
+  //   if (!userId) {
+  //     // If user is not logged in, show toast message and return
+  //     toast.warning("Please login to favorite the post", {
+  //       position: "top-center",
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //     });
+  //     return;
+  //   }
+
+  //   try {
+  //     // Toggle the favorite status in the component state
+  //     const isFavorited = favorites.some((item) => item.id == blogId);
+  //     let updatedFavorites = [];
+  //     if (isFavorited) {
+  //       updatedFavorites = favorites.filter((item) => item.id !== blogId);
+  //     } else {
+  //       updatedFavorites = [...favorites, { id: blogId }];
+  //     }
+
+  //     // Update the component state immediately
+  //     dispatch(updateMyFavorite(updatedFavorites));
+
+  //     // Dispatch the action to update favorites in the Redux store
+  //     if (isFavorited) {
+  //       // Remove from favorites if already favorited
+  //       await dispatch(updateMyFavorite(blogId));
+  //       toast.success("Post removed from favorites", {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //       });
+  //     } else {
+  //       // Add to favorites if not favorited
+  //       await dispatch(updateMyFavorite(blogId));
+  //       toast.success("Post added to favorites", {
+  //         position: "top-center",
+  //         autoClose: 3000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: true,
+  //         draggable: true,
+  //       });
+  //     }
+
+  //     // Fetch blogs again to get the updated data
+  //     dispatch(getAllBlogsSlice());
+  //   } catch (error) {
+  //     console.error("Error updating favorites:", error);
+  //     toast.error("Error updating favorites", {
+  //       position: "top-center",
+  //       autoClose: 3000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //     });
+  //   }
+  // };
   //newwwm m k l
   // const handleFavorite = async (blogId) => {
   //   if (updatingFavorite) return; // Prevent concurrent updates

@@ -1,19 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BlogList from "../blogs/BlogList";
 import Header from "./Header";
-import {
-  addToFavorites,
-  removeFromFavorites,
-} from "../../redux/reducer/myFavoriteSlice";
-import { useParams } from "react-router-dom";
+import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
 import { updateLikes } from "../../redux/actions/likesAction";
 import { increment } from "../../redux/reducer/likesSlice";
 import { toast } from "react-toastify";
-// import { fetchFavorites } from "../../redux/actions/myFavoriteAction";
+
+import "./Header.css";
 
 const MyFavorites = () => {
   const dispatch = useDispatch();
+  const userId = localStorage.getItem("userId");
   const { posts } = useSelector((state) => state.blogs);
   const { favorites } = useSelector((state) => state.myFavorites);
 
@@ -37,16 +35,13 @@ const MyFavorites = () => {
   };
 
   const handleFavorite = (blogId) => {
-    console.log("yugandhar 1");
     if (favorites.includes(blogId)) {
       // Remove from favorites if already favorited
       dispatch(removeFromFavorites(blogId));
-      console.log("yugandhar 2");
     }
   };
-  // useEffect(() => {
-  //   dispatch(fetchFavorites(userId));
-  // }, [dispatch, userId]);
+
+  const filteredPosts = posts.filter((post) => favorites.includes(post.id));
 
   return (
     <div className="mt-0 custom-bg">
@@ -56,9 +51,9 @@ const MyFavorites = () => {
         textAlign="center"
         backgroundColor="#F5F5F3"
       />
-      {favorites.length > 0 ? (
+      {filteredPosts.length > 0 ? (
         <BlogList
-          blogs={favorites}
+          blogs={filteredPosts}
           handleLike={handleLikes}
           handleFavorite={handleFavorite}
         />
@@ -72,4 +67,3 @@ const MyFavorites = () => {
 };
 
 export default MyFavorites;
-//kkklk
