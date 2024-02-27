@@ -1,47 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BlogList from "../blogs/BlogList";
 import Header from "./Header";
 import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
-import { updateLikes } from "../../redux/actions/likesAction";
-import { increment } from "../../redux/reducer/likesSlice";
 import { toast } from "react-toastify";
-
 import "./Header.css";
+import { getAllBlogsSlice } from "../../redux/actions/blogAction";
 
 const MyFavorites = () => {
+  // const [refreshFavorites, setRefreshFavorites] = useState(false);
   const dispatch = useDispatch();
-  const userId = localStorage.getItem("userId");
   const { posts } = useSelector((state) => state.blogs);
   const { favorites } = useSelector((state) => state.myFavorites);
+  const userId = localStorage.getItem("userId");
 
-  const handleLikes = (blogId) => {
-    dispatch(updateLikes(blogId))
-      .unwrap()
-      .then(() => {
-        dispatch(increment()); // Dispatch increment action after liking the post
-      })
-      .catch((error) => {
-        console.error("Error liking post", error);
-        toast.error("Error liking post", {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-        });
-      });
-  };
+  useEffect(() => {
+    dispatch(getAllBlogsSlice());
+    console.log("myfavorite page useEffect");
+  }, [dispatch]);
 
-  const handleFavorite = (blogId) => {
-    if (favorites.includes(blogId)) {
-      // Remove from favorites if already favorited
-      dispatch(removeFromFavorites(blogId));
-    }
-  };
-
-  const filteredPosts = posts.filter((post) => favorites.includes(post.id));
+  // const filteredPosts = posts.filter((post) => favorites.includes(post.id));
+  // Filter posts based on whether the favorites field includes the current user's ID
+  const filteredPosts = posts.filter((post) => {
+    return post.favorites && post.favorites.includes(userId);
+  });
+  console.log("Filtered Posts:", filteredPosts);
 
   return (
     <div className="mt-0 custom-bg">
@@ -52,11 +35,7 @@ const MyFavorites = () => {
         backgroundColor="#F5F5F3"
       />
       {filteredPosts.length > 0 ? (
-        <BlogList
-          blogs={filteredPosts}
-          handleLike={handleLikes}
-          handleFavorite={handleFavorite}
-        />
+        <BlogList blogs={filteredPosts} />
       ) : (
         <div className="text-center bg-secondary">
           <h1>No Favorite Blogs yet!</h1>

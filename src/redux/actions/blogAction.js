@@ -87,6 +87,29 @@ export const deleteBlogsByUserId = createAsyncThunk(
   }
 );
 
+// Thunk action creator for fetching favorite blogs by user ID
+export const getFavoriteBlogs = createAsyncThunk(
+  "posts/getFavoriteBlogs", // Action type
+  async (userId) => {
+    try {
+      // Make an HTTP request to fetch favorite blogs by user ID
+      const response = await axios.get(
+        `http://localhost:3002/posts?userId=${userId}&favorites.length>0`
+      );
+
+      // Log the response for debugging
+      console.log("Response from getFavoriteBlogs:", response);
+
+      // Return the favorite blogs data to be used by the reducer
+      return response.data;
+    } catch (error) {
+      // Handle errors, such as network errors or server errors
+      console.error("Error fetching favorite blogs:", error);
+      throw error; // Throw the error for further handling
+    }
+  }
+);
+
 // export const blogDetailSlice = createAsyncThunk(
 //   "posts/blogDetail",
 //   async (Id) => {

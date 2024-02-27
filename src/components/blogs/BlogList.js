@@ -12,7 +12,11 @@ import axios from "axios";
 import BlogDetail from "./BlogDetail";
 import "./style.css";
 // add search
-const BlogList = ({ blogs, showButtons = true }) => {
+const BlogList = ({
+  blogs,
+  showButtons = true,
+  removeFromFavoritesCallback,
+}) => {
   const userId = localStorage.getItem("userId");
   const itemsPerRow = 3; // Adjust the number of items per row
   const itemsPerPage = 6; // Adjust the number of items per page
@@ -22,6 +26,7 @@ const BlogList = ({ blogs, showButtons = true }) => {
 
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [updatingFavorite, setUpdatingFavorite] = useState(false);
+  // const [setRefreshFavorites] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +38,14 @@ const BlogList = ({ blogs, showButtons = true }) => {
   const currentPosts = blogs.slice(indexOfFirstPost, indexOfLastPost);
 
   const totalPages = Math.ceil(blogs.length / itemsPerPage);
+
+  // useEffect(() => {
+  //   if (refreshFavorites) {
+  //     // Fetch blogs again to refresh the list
+  //     dispatch(getAllBlogsSlice());
+  //     setRefreshFavorites(false); // Reset the refresh flag
+  //   }
+  // }, [refreshFavorites]);
 
   // useEffect(() => {
   //   dispatch(getAllBlogsSlice());
@@ -143,12 +156,14 @@ const BlogList = ({ blogs, showButtons = true }) => {
         // Remove from favorites if already favorited
         await dispatch(updateMyFavorite(blogId));
 
+        console.log("myfav handle fav 333");
         // Fetch blogs again to get the updated data
         dispatch(getAllBlogsSlice());
       } else {
         // Add to favorites if not favorited
         await dispatch(updateMyFavorite(blogId));
 
+        console.log("myfav handle fav 444");
         // Fetch blogs again to get the updated data
         dispatch(getAllBlogsSlice());
       }
@@ -276,10 +291,10 @@ const BlogList = ({ blogs, showButtons = true }) => {
     for (let i = 0; i < currentPosts.length; i += itemsPerRow) {
       const row = currentPosts.slice(i, i + itemsPerRow);
       rows.push(
-        <div className="row custom-row ms-1 me-1 mb-2" key={i}>
+        <div className="row custom-row ms-5 me-5 mt-2 mb-2" key={i}>
           {row.map((blog) => (
             <div
-              className={`custom-col-bg m-3 col-md-${12 / itemsPerRow}`}
+              className={`custom-col-bg m-0 col-md-${12 / itemsPerRow}`}
               key={blog.id}
             >
               <div className="card rounded-0 m-1">

@@ -5,6 +5,7 @@ import {
   deleteBlogsByUserId,
   deleteSlice,
   getByIdSlice,
+  getFavoriteBlogs,
   updateBlogSlice,
 } from "../actions/blogAction";
 import { getAllBlogsSlice } from "../actions/blogAction";
@@ -114,6 +115,19 @@ export const blogsSlice = createSlice({
       state.loading = false;
       console.log("deleteSlice action reject payload", action.payload);
       state.error = "error";
+    });
+
+    // Case for delete blog posts
+    builder.addCase(getFavoriteBlogs.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(getFavoriteBlogs.fulfilled, (state, action) => {
+      state.loading = false;
+      state.posts = action.payload;
+    });
+    builder.addCase(getFavoriteBlogs.rejected, (state) => {
+      state.loading = false;
+      state.error = "Error getting favorite blogs.";
     });
 
     //blogdetail

@@ -15,6 +15,9 @@ const myFavoriteSlice = createSlice({
   name: "myFavorites",
   initialState,
   reducers: {
+    setFavorites: (state, action) => {
+      state.favorites = action.payload;
+    },
     addToFavorites(state, action) {
       const blogId = action.payload;
       if (!state.favorites.includes(blogId)) {
@@ -71,6 +74,7 @@ const myFavoriteSlice = createSlice({
   },
 });
 
-export const { addToFavorites, removeFromFavorites } = myFavoriteSlice.actions;
+export const { addToFavorites, removeFromFavorites, setFavorites } =
+  myFavoriteSlice.actions;
 
 export default myFavoriteSlice.reducer;
