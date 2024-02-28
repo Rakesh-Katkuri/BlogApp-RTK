@@ -55,7 +55,9 @@ export const getByIdSlice = createAsyncThunk(
 export const deleteSlice = createAsyncThunk(
   "posts/deleteById",
   async (postId) => {
-    const response = axios.delete(`http://localhost:3002/posts/${postId}`);
+    const response = await axios.delete(
+      `http://localhost:3002/posts/${postId}`
+    );
 
     console.log("respones getallblogs ", response);
     return response.data;
@@ -106,6 +108,21 @@ export const getFavoriteBlogs = createAsyncThunk(
       // Handle errors, such as network errors or server errors
       console.error("Error fetching favorite blogs:", error);
       throw error; // Throw the error for further handling
+    }
+  }
+);
+
+// Define the async thunk action to fetch blogs by user ID
+export const fetchBlogsByUserId = createAsyncThunk(
+  "blogs/fetchBlogsByUserId",
+  async (userId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3002/posts?userId=${userId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
     }
   }
 );

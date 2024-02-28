@@ -21,6 +21,7 @@ import Register from "./components/auth/RegisterForm";
 import Footer from "./components/common/Footer";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AuthorsPage from "./components/admin/AuthorsPage";
+import UserBlogsPage from "./components/admin/UserBlogsPage";
 
 const App = () => {
   const userId = localStorage.getItem("userId");
@@ -124,6 +125,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <AuthorsPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/blogs/:userId"
+            element={
+              <PrivateRoute>
+                <UserBlogsPage />
               </PrivateRoute>
             }
           />

@@ -5,10 +5,16 @@ import {
   deleteUserSlice,
   fetchUsersSlice,
 } from "../../redux/actions/authorsActions";
-import { deleteBlogsByUserId } from "../../redux/actions/blogAction";
+import {
+  deleteBlogsByUserId,
+  fetchBlogsByUserId,
+} from "../../redux/actions/blogAction";
+import { useNavigate } from "react-router-dom";
+
 const AuthorsPage = () => {
   const dispatch = useDispatch();
-  const { user, status, error } = useSelector((state) => state.users);
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.users);
   const role = localStorage.getItem("role");
   console.log("users lsit", user);
 
@@ -24,6 +30,18 @@ const AuthorsPage = () => {
     }
     return color;
   };
+
+  const handleViewBlogs = (userId) => {
+    // Dispatch action to fetch blogs associated with the user ID
+    dispatch(fetchBlogsByUserId(userId));
+    console.log(
+      "dispatch(fetchBlogsByUserId(userId))",
+      dispatch(fetchBlogsByUserId(userId))
+    );
+    // Redirect to the blogs page
+    navigate(`/blogs/${userId}`);
+  };
+
   const handleDeleteUser = (userId) => {
     // Dispatch action to delete user
     dispatch(deleteUserSlice(userId));
@@ -55,6 +73,13 @@ const AuthorsPage = () => {
                   <td>{user.email}</td>
 
                   <td>
+                    <Button
+                      variant="info"
+                      className="me-2"
+                      onClick={() => handleViewBlogs(user.id)}
+                    >
+                      View Blogs
+                    </Button>
                     <Button
                       variant="danger"
                       onClick={() => handleDeleteUser(user.id)}

@@ -4,6 +4,7 @@ import {
   blogDetailSlice,
   deleteBlogsByUserId,
   deleteSlice,
+  fetchBlogsByUserId,
   getByIdSlice,
   getFavoriteBlogs,
   updateBlogSlice,
@@ -128,6 +129,18 @@ export const blogsSlice = createSlice({
     builder.addCase(getFavoriteBlogs.rejected, (state) => {
       state.loading = false;
       state.error = "Error getting favorite blogs.";
+    });
+
+    builder.addCase(fetchBlogsByUserId.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchBlogsByUserId.fulfilled, (state, action) => {
+      state.loading = false;
+      state.posts = action.payload;
+    });
+    builder.addCase(fetchBlogsByUserId.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
     });
 
     //blogdetail
