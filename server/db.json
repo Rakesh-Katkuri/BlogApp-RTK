@@ -9,21 +9,46 @@
       "role": "admin"
     },
     {
-      "id": "161c",
-      "firstName": "h",
-      "lastName": "k",
-      "email": "n@gmail.com",
-      "password": "j123",
+      "id": "c3b8",
+      "firstName": "test",
+      "lastName": "user",
+      "email": "user1@gmail.com",
+      "password": "user1",
       "role": "user"
     },
     {
-      "id": "6b6a",
-      "firstName": "fghj",
-      "lastName": "kghnm",
-      "email": "w@gmail.com",
-      "password": "w123",
+      "id": "e570",
+      "firstName": "test",
+      "lastName": "user two",
+      "email": "user2@gmail.com",
+      "password": "user2",
       "role": "user"
     }
   ],
-  "posts": []
+  "posts": [
+    {
+      "id": "6d44",
+      "likes": 0,
+      "likesBy": [],
+      "favorites": [],
+      "date": "2024-02-29",
+      "imageUrl": "https://natureinmind.ie/wp-content/uploads/2016/12/3-600x400.jpg",
+      "title": "nature",
+      "description": "jnhmlopl",
+      "userId": "e570",
+      "author": "test user two"
+    },
+    {
+      "id": "3144",
+      "likes": 0,
+      "likesBy": [],
+      "favorites": [],
+      "date": "2024-02-29",
+      "imageUrl": "https://w0.peakpx.com/wallpaper/32/729/HD-wallpaper-boat-oar-coast-lake-nature.jpg",
+      "title": "rtyui",
+      "description": "vbnm",
+      "userId": "c3b8",
+      "author": "test user"
+    }
+  ]
 }

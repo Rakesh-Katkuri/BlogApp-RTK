@@ -20,16 +20,14 @@ const UserBlogsPage = ({ userId }) => {
   const handleDeleteBlog = async (blogId) => {
     if (window.confirm("Are you sure you want to delete this blog?")) {
       try {
-        console.log("Before dispatching deleteSlice");
         await dispatch(deleteSlice(blogId));
-        console.log("After dispatching deleteSlice");
-        // Fetch user's blogs again after deletion
-        dispatch(fetchBlogsByUserId(userId));
       } catch (error) {
         console.error("Error deleting blog:", error);
       }
     }
   };
+
+  const updatedPosts = posts.filter((blog) => blog.userId !== userId); // Filter out the deleted blog
 
   return (
     <div>
@@ -42,7 +40,7 @@ const UserBlogsPage = ({ userId }) => {
       />
       <div className="container">
         <div className="row row-cols-1 row-cols-md-2 g-4">
-          {posts.map((blog) => (
+          {updatedPosts.map((blog) => (
             <div key={blog.id} className="col mb-4">
               <div className="card h-100">
                 <img src={blog.imageUrl} className="card-img-top" alt="Blog" />

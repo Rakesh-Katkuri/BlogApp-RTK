@@ -95,7 +95,9 @@ export const blogsSlice = createSlice({
     });
     builder.addCase(deleteSlice.fulfilled, (state, action) => {
       console.log("deleteSlice action", action);
-      state.loading = false;
+      // Remove the deleted blog from the state's posts array
+      state.posts = state.posts.filter((post) => post.id !== action.payload.id);
+      // state.loading = false;
     });
     builder.addCase(deleteSlice.rejected, (state, action) => {
       state.loading = false;

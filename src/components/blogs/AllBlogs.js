@@ -15,6 +15,10 @@ const AllBlogs = () => {
     dispatch(getAllBlogsSlice());
   }, [dispatch, location.pathname]);
 
+  useEffect(() => {
+    dispatch(getAllBlogsSlice());
+  }, []);
+
   return (
     <div className="mt-0 custom-bg">
       <Header

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addBlogSlice } from "../../redux/actions/blogAction";
+import { addBlogSlice, getAllBlogsSlice } from "../../redux/actions/blogAction";
 import { useDispatch } from "react-redux";
 import "./style.css";
 import BlogForm from "./BlogForm";
@@ -37,8 +37,9 @@ const AddBlog = () => {
     posts.userId = userId;
     posts.author = author;
     dispatch(addBlogSlice(posts));
+
     toast.success("Blog added successfully !.", {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: true,
       closeOnClick: true,

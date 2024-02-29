@@ -60,7 +60,7 @@ const Navbar2 = () => {
     localStorage.removeItem("lastName");
     localStorage.removeItem("role");
     toast.dark("Logout successful.", {
-      position: "top-right",
+      position: "bottom-right",
       autoClose: 3000,
       hideProgressBar: true,
       closeOnClick: true,

@@ -61,7 +61,7 @@ const Login = () => {
           if (foundUser[0].role === "user") {
             console.log("login 222");
             toast.success("User Login successful. Welcome!", {
-              position: "top-right",
+              position: "bottom-right",
               autoClose: 3000,
               hideProgressBar: true,
               closeOnClick: true,
@@ -71,7 +71,7 @@ const Login = () => {
             navigate("/", { replace: true });
           } else if (foundUser[0].role === "admin") {
             toast.success("Admin login successful. Redirecting...", {
-              position: "top-right",
+              position: "bottom-right",
               autoClose: 3000,
               hideProgressBar: true,
               closeOnClick: true,
@@ -86,7 +86,7 @@ const Login = () => {
       } catch (error) {
         // Show Toastify message when email and password do not match
         toast.error("Invalid email or password", {
-          position: "top-right",
+          position: "bottom-right",
           autoClose: 3000,
           hideProgressBar: true,
           closeOnClick: true,
