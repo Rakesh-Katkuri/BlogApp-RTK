@@ -127,6 +127,18 @@ export const fetchBlogsByUserId = createAsyncThunk(
   }
 );
 
+// Thunk action creator for updating the status of a blog post
+export const updateBlogStatus = createAsyncThunk(
+  "posts/updateBlogStatus", // Action type
+  async ({ postId, status }) => {
+    const response = await axios.patch(
+      `http://localhost:3002/posts/${postId}`,
+      { status }
+    );
+    return response.data;
+  }
+);
+
 // export const blogDetailSlice = createAsyncThunk(
 //   "posts/blogDetail",
 //   async (Id) => {

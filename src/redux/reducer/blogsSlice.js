@@ -8,6 +8,7 @@ import {
   getByIdSlice,
   getFavoriteBlogs,
   updateBlogSlice,
+  updateBlogStatus,
 } from "../actions/blogAction";
 import { getAllBlogsSlice } from "../actions/blogAction";
 
@@ -141,6 +142,20 @@ export const blogsSlice = createSlice({
       state.posts = action.payload;
     });
     builder.addCase(fetchBlogsByUserId.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    });
+
+    // Case for updating the status of a blog post
+    builder.addCase(updateBlogStatus.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateBlogStatus.fulfilled, (state, action) => {
+      state.loading = false;
+      // Update the state accordingly if needed
+    });
+    builder.addCase(updateBlogStatus.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message;
     });

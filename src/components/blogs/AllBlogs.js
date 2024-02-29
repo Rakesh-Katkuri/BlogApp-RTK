@@ -19,6 +19,11 @@ const AllBlogs = () => {
     dispatch(getAllBlogsSlice());
   }, []);
 
+  // Filter out pending blogs and only display accepted ones
+  const acceptedBlogs = Array.isArray(posts)
+    ? posts.filter((blog) => blog.status === "accepted")
+    : [];
+
   return (
     <div className="mt-0 custom-bg">
       <Header
@@ -28,7 +33,11 @@ const AllBlogs = () => {
         backgroundColor="#34495E"
         color="white"
       />
-      {posts?.length > 0 ? <BlogList blogs={posts} /> : <p>No blogs</p>}
+      {acceptedBlogs?.length > 0 ? (
+        <BlogList blogs={acceptedBlogs} />
+      ) : (
+        <p>No accepted blogs</p>
+      )}
     </div>
   );
 };

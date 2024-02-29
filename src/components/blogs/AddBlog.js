@@ -20,6 +20,7 @@ const AddBlog = () => {
     likesBy: [],
     favorites: [],
     date: getCurrentDate(),
+    status: "pending", // Set the initial status to "pending"
   });
   const [author, setAthor] = useState("");
   const navigate = useNavigate();

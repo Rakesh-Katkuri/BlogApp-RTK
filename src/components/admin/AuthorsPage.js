@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Row, Col, Table, Button } from "react-bootstrap";
+import { Card, Row, Col, Table, Button, Modal } from "react-bootstrap";
 import {
   deleteUserSlice,
   fetchUsersSlice,
@@ -8,6 +8,7 @@ import {
 import {
   deleteBlogsByUserId,
   fetchBlogsByUserId,
+  updateBlogStatus,
 } from "../../redux/actions/blogAction";
 import { useNavigate } from "react-router-dom";
 
@@ -15,8 +16,39 @@ const AuthorsPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.users);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [showRequestsModal, setShowRequestsModal] = useState(false);
+  const [pendingBlogs, setPendingBlogs] = useState([]);
+  const { posts } = useSelector((state) => state.blogs);
+
   const role = localStorage.getItem("role");
   console.log("users lsit", user);
+
+  // Function to fetch blogs by user ID
+  const fetchBlogs = (userId) => {
+    const userBlogs = posts.filter((blog) => blog.userId === userId);
+    return userBlogs.filter((blog) => blog.status === "pending");
+  };
+
+  // Function to handle view requests
+  const handleViewRequests = (userId) => {
+    setSelectedUserId(userId);
+    setShowRequestsModal(true);
+    const userBlogs = fetchBlogs(userId);
+    setPendingBlogs(userBlogs);
+  };
+
+  // Function to handle accept request
+  const handleAcceptRequest = (blogId) => {
+    dispatch(updateBlogStatus({ postId: blogId, status: "accepted" }));
+    const updatedBlogs = pendingBlogs.filter((blog) => blog.id !== blogId);
+    setPendingBlogs(updatedBlogs);
+  };
+
+  // Function to close requests modal
+  const handleCloseRequestsModal = () => {
+    setShowRequestsModal(false);
+  };
 
   useEffect(() => {
     dispatch(fetchUsersSlice());
@@ -81,6 +113,13 @@ const AuthorsPage = () => {
                       View Blogs
                     </Button>
                     <Button
+                      variant="warning"
+                      className="me-2"
+                      onClick={() => handleViewRequests(user.id)}
+                    >
+                      Requests
+                    </Button>
+                    <Button
                       variant="danger"
                       onClick={() => handleDeleteUser(user.id)}
                     >
@@ -92,6 +131,31 @@ const AuthorsPage = () => {
           )}
         </tbody>
       </Table>
+
+      <Modal show={showRequestsModal} onHide={handleCloseRequestsModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Pending Blog Requests</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {pendingBlogs.map((blog) => (
+            <div key={blog.id}>
+              <p>{blog.title}</p>
+              <Button
+                variant="success"
+                onClick={() => handleAcceptRequest(blog.id)}
+              >
+                Accept
+              </Button>
+              <Button variant="danger">Reject</Button>
+            </div>
+          ))}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseRequestsModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
 
     // <div className="mt-5 mb-3">
