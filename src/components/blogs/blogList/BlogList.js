@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBlogsSlice, getByIdSlice } from "../../redux/actions/blogAction";
-import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
-import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
-import { updateLikes } from "../../redux/actions/likesAction";
-import { decrement, increment } from "../../redux/reducer/likesSlice";
+import {
+  getAllBlogsSlice,
+  getByIdSlice,
+} from "../../../redux/actions/blogAction";
+import { updateMyFavorite } from "../../../redux/actions/myFavoriteAction";
+import { removeFromFavorites } from "../../../redux/reducer/myFavoriteSlice";
+import { updateLikes } from "../../../redux/actions/likesAction";
+import { decrement, increment } from "../../../redux/reducer/likesSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-import BlogDetail from "./BlogDetail";
-import "./style.css";
+import BlogDetail from "../blogDetail/BlogDetail";
+import "../style.css";
 // add search
 const BlogList = ({
   blogs,

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import BlogList from "../blogs/BlogList";
-import Header from "./Header";
-import { removeFromFavorites } from "../../redux/reducer/myFavoriteSlice";
+import BlogList from "../../blogs/blogList/BlogList";
+import { removeFromFavorites } from "../../../redux/reducer/myFavoriteSlice";
 import { toast } from "react-toastify";
-import "./Header.css";
-import { getAllBlogsSlice } from "../../redux/actions/blogAction";
+import "../header/Header.css";
+import { getAllBlogsSlice } from "../../../redux/actions/blogAction";
+import Header from "../header/Header";
 
 const MyFavorites = () => {
   // const [refreshFavorites, setRefreshFavorites] = useState(false);

@@ -1,0 +1,38 @@
+.custom-loginbtn:hover {
+  background-color: rgb(152, 108, 67);
+  color: white;
+}
+.custom-loginbtn {
+  background-color: white;
+  font-size: "1rem";
+}
+.dropdown-item:hover {
+  background-color: rgb(152, 108, 67);
+}
+.nav-link:hover {
+  color: white;
+}
+.nav-link.active:hover {
+  color: white;
+}
+
+/* seacrh */
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-group input[type="search"] {
+  padding-right: 40px; /* Adjust as needed based on button width */
+}
+
+.input-group button[type="button"] {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  color: red;
+  margin: auto;
+  z-index: 1; /* Ensure button is above input */
+}

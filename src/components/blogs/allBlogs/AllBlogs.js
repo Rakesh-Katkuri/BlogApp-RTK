@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import "./style.css";
-import BlogList from "./BlogList";
+import BlogList from "../blogList/BlogList";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBlogsSlice } from "../../redux/actions/blogAction";
-import Header from "../common/Header";
+import { getAllBlogsSlice } from "../../../redux/actions/blogAction";
+import Header from "../../common/header/Header";
+import "../style.css";
 
 const AllBlogs = () => {
   const dispatch = useDispatch();

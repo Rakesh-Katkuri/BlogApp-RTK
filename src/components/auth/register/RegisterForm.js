@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { validateForm } from "./FormValidator";
-import "./AuthStyle.css";
+import { validateForm } from "../formValidator/FormValidator";
+import "../AuthStyle.css";
 
 const Register = () => {
   const [user, setUser] = useState({});

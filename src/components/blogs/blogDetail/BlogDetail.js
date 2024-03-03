@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Header from "../common/Header";
-import "./style.css";
+import Header from "../../common/header/Header";
+import "../style.css";
 
 const BlogDetail = () => {
   const { id } = useParams();

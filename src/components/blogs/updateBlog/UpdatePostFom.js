@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import Header from "../common/Header";
-import BlogForm from "./BlogForm";
+import Header from "../../common/header/Header";
+import BlogForm from "../blogForm/BlogForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAllBlogsSlice,
   getByIdSlice,
   updateBlogSlice,
-} from "../../redux/actions/blogAction";
+} from "../../../redux/actions/blogAction";
 
 const UpdatePostForm = () => {
   const navigate = useNavigate();

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addBlogSlice, getAllBlogsSlice } from "../../redux/actions/blogAction";
+import { addBlogSlice } from "../../../redux/actions/blogAction";
 import { useDispatch } from "react-redux";
-import "./style.css";
-import BlogForm from "./BlogForm";
 import { toast } from "react-toastify";
-import Header from "../common/Header";
+import BlogForm from "../blogForm/BlogForm";
+import Header from "../../common/header/Header";
+import "../style.css";
 
 const AddBlog = () => {
   const getCurrentDate = () => {
@@ -15,6 +15,7 @@ const AddBlog = () => {
     const day = String(currentDate.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
+
   const [posts, setPosts] = useState({
     likes: 0,
     likesBy: [],
@@ -23,6 +24,7 @@ const AddBlog = () => {
     status: "pending", // Set the initial status to "pending"
   });
   const [author, setAthor] = useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,6 +39,7 @@ const AddBlog = () => {
     const userId = localStorage.getItem("userId");
     posts.userId = userId;
     posts.author = author;
+
     dispatch(addBlogSlice(posts));
 
     toast.success("Blog added successfully !.", {
@@ -47,6 +50,7 @@ const AddBlog = () => {
       pauseOnHover: false,
       draggable: true,
     });
+
     navigate("/");
   };
 

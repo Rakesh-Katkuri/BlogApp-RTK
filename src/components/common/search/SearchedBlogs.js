@@ -1,10 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Header from "./Header";
-import BlogCard from "../blogs/BlogCard";
 import "./SearchBlog.css";
-import BlogList from "../blogs/BlogList";
+import BlogList from "../../blogs/blogList/BlogList";
+import Header from "../header/Header";
 
 const SearchedBlogs = ({ handleLike, handleFavorite, showButtons = true }) => {
   const { searchResults } = useSelector((state) => state.search);

@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import MyBlog from "./components/blogs/MyBlog";
-import AddBlog from "./components/blogs/AddBlog";
+import MyBlog from "./components/blogs/myBlogs/MyBlog";
+import AddBlog from "./components/blogs/addBlog/AddBlog";
 // import Login from "./userAuthentication/LoginForm";
 // import Register from "./userAuthentication/RegisterForm";
-import UpdatePostForm from "./components/blogs/UpdatePostFom";
-import AllBlogs from "./components/blogs/AllBlogs";
-import MyFavorites from "./components/common/MyFavorites";
-import SearchedBlogs from "./components/common/SearchedBlogs";
+import UpdatePostForm from "./components/blogs/updateBlog/UpdatePostFom";
+import AllBlogs from "./components/blogs/allBlogs/AllBlogs";
+import MyFavorites from "./components/common/favorites/MyFavorites";
+import SearchedBlogs from "./components/common/search/SearchedBlogs";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import BlogDetail from "./components/blogs/BlogDetail";
+import BlogDetail from "./components/blogs/blogDetail/BlogDetail";
 // import Footer from "./components/common/Footer";
-import Navbar2 from "./components/common/Navbar2";
+import Navbar2 from "./components/common/navbar/Navbar2";
 import "./App.css";
 import PrivateRoute from "./private-route/PrivateRoute";
-import Login from "./components/auth/LoginForm";
-import Register from "./components/auth/RegisterForm";
-import Footer from "./components/common/Footer";
+import Login from "./components/auth/login/LoginForm";
+import Register from "./components/auth/register/RegisterForm";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import AuthorsPage from "./components/admin/AuthorsPage";
 import UserBlogsPage from "./components/admin/UserBlogsPage";
+import Footer from "./components/common/footer/Footer";
 
 const App = () => {
   const userId = localStorage.getItem("userId");

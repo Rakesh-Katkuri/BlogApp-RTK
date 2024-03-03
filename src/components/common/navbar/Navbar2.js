@@ -4,16 +4,25 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchResults } from "../../redux/reducer/searchSlice";
+import { setSearchResults } from "../../../redux/reducer/searchSlice";
+import { Button, Modal } from "react-bootstrap";
+//redux
+import ProfileModal from "../profile/ProfileModal";
+import { fetchUsersSlice } from "../../../redux/actions/authorsActions";
 
 const Navbar2 = () => {
   const { posts } = useSelector((state) => state.blogs);
+  const { user } = useSelector((state) => state.users);
   const [activeLink, setActiveLink] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const userId = localStorage.getItem("userId");
   const role = localStorage.getItem("role");
+
+  // State for handling the profile modal
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   //for search blogs
   const [searchActive, setSearchActive] = useState(false);
@@ -89,6 +98,19 @@ const Navbar2 = () => {
   //   color: "black",
   //   fontSize: "1rem",
   // };
+
+  // Function to handle opening the profile modal
+  // Function to handle opening the profile modal
+  const handleOpenProfileModal = () => {
+    // Dispatch an action to fetch user data
+    dispatch(fetchUsersSlice());
+    setShowProfileModal(true);
+  };
+
+  const handleCloseProfileModal = () => {
+    setShowProfileModal(false);
+  };
+
   return (
     <header>
       <nav style={customStyle} class="navbar fixed-top navbar-expand-lg p-3">
@@ -147,16 +169,18 @@ const Navbar2 = () => {
                     setSearchTerm(e.target.value) || setSearchActive(true)
                   }
                 />
-                <span class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary bg-white border-bottom-0 border rounded-pill ms-n5"
-                    type="button"
-                    onClick={handleSearch}
-                    disabled={!searchActive}
-                  >
-                    <i class="fa fa-search"></i>
-                  </button>
-                </span>
+                {/* <span class="input-group-append"> */}
+
+                <button
+                  class="btn btn-outline-secondary border-bottom-0 border rounded-pill ms-n5"
+                  type="button"
+                  onClick={handleSearch}
+                  disabled={!searchActive}
+                >
+                  <i class="fa fa-search"></i>
+                </button>
+
+                {/* </span> */}
               </div>
             </div>
 
@@ -171,6 +195,45 @@ const Navbar2 = () => {
                       aria-expanded="false"
                     ></i>
                     <ul class="dropdown-menu dropdown-menu-end rounded-0">
+                      <li>
+                        {role === "admin" ? (
+                          <strong className="ms-4">ADMIN</strong>
+                        ) : (
+                          <strong className="ms-4">USER</strong>
+                        )}
+                        <hr className="my-1" /> {/* Add horizontal line here */}
+                      </li>
+                      <li className="dropdown-item">
+                        <Link
+                          to=""
+                          onClick={handleOpenProfileModal}
+                          className={
+                            activeLink === "" ? "nav-link active" : "nav-link"
+                          }
+                        >
+                          profile
+                        </Link>
+                      </li>
+
+                      {/* authors */}
+                      {role === "admin" ? (
+                        <li className="dropdown-item">
+                          <Link
+                            to="/authors-list"
+                            className={
+                              activeLink === "/my-favorite/blogs"
+                                ? "nav-link active"
+                                : "nav-link"
+                            }
+                            onClick={() => handleLinkClick("/authors-list")}
+                          >
+                            DashBoard
+                          </Link>
+                        </li>
+                      ) : null}
+                      {/* authors */}
+                      <hr className="my-1" />
+
                       <li className="dropdown-item">
                         <Link
                           to="/add-blog"
@@ -211,23 +274,8 @@ const Navbar2 = () => {
                           My Favorites
                         </Link>
                       </li>
-                      {/* authors */}
-                      {role === "admin" ? (
-                        <li className="dropdown-item">
-                          <Link
-                            to="/authors-list"
-                            className={
-                              activeLink === "/my-favorite/blogs"
-                                ? "nav-link active"
-                                : "nav-link"
-                            }
-                            onClick={() => handleLinkClick("/authors-list")}
-                          >
-                            Authors List
-                          </Link>
-                        </li>
-                      ) : null}
-                      {/* authors */}
+                      <hr className="my-1" />
+
                       <li className="dropdown-item ">
                         <Link
                           to="/login"
@@ -259,6 +307,12 @@ const Navbar2 = () => {
           </div>
         </div>
       </nav>
+      {/* Profile Modal */}
+      <ProfileModal
+        show={showProfileModal}
+        handleClose={handleCloseProfileModal}
+        userData={user} // Pass the user data to the ProfileModal component
+      />
     </header>
   );
 };

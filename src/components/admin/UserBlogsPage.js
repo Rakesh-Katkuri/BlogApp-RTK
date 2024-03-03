@@ -5,7 +5,7 @@ import {
   deleteSlice,
   getAllBlogsSlice,
 } from "../../redux/actions/blogAction";
-import Header from "../common/Header";
+import Header from "../common/header/Header";
 
 const UserBlogsPage = ({ userId }) => {
   const dispatch = useDispatch();

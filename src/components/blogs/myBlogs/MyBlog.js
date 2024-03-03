@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import BlogList from "./BlogList";
-import Header from "../common/Header";
+import BlogList from "../blogList/BlogList";
+import Header from "../../common/header/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBlogsSlice } from "../../redux/actions/blogAction";
-import likesSlice from "../../redux/reducer/likesSlice";
-import { updateMyFavorite } from "../../redux/actions/myFavoriteAction";
+import { getAllBlogsSlice } from "../../../redux/actions/blogAction";
+import likesSlice from "../../../redux/reducer/likesSlice";
+import { updateMyFavorite } from "../../../redux/actions/myFavoriteAction";
 
 function MyBlog() {
   const { posts } = useSelector((state) => state.blogs);

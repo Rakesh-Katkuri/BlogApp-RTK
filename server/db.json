@@ -15,77 +15,19 @@
       "email": "user1@gmail.com",
       "password": "user1",
       "role": "user"
-    },
-    {
-      "id": "e570",
-      "firstName": "test",
-      "lastName": "user two",
-      "email": "user2@gmail.com",
-      "password": "user2",
-      "role": "user"
     }
   ],
   "posts": [
     {
-      "id": "6d44",
+      "id": "36f5",
       "likes": 0,
       "likesBy": [],
       "favorites": [],
-      "date": "2024-02-29",
-      "imageUrl": "https://natureinmind.ie/wp-content/uploads/2016/12/3-600x400.jpg",
-      "title": "nature",
-      "description": "jnhmlopl",
-      "userId": "e570",
-      "author": "test user two"
-    },
-    {
-      "id": "3144",
-      "likes": 0,
-      "likesBy": [],
-      "favorites": [],
-      "date": "2024-02-29",
-      "imageUrl": "https://w0.peakpx.com/wallpaper/32/729/HD-wallpaper-boat-oar-coast-lake-nature.jpg",
-      "title": "rtyui",
-      "description": "vbnm",
-      "userId": "c3b8",
-      "author": "test user"
-    },
-    {
-      "id": "ead4",
-      "likes": 0,
-      "likesBy": [],
-      "favorites": [],
-      "date": "2024-02-29",
+      "date": "2024-03-03",
       "status": "accepted",
       "imageUrl": "https://w0.peakpx.com/wallpaper/32/729/HD-wallpaper-boat-oar-coast-lake-nature.jpg",
-      "title": "test for admin accept",
-      "description": "sdfghjk",
-      "userId": "c3b8",
-      "author": "test user"
-    },
-    {
-      "id": "3bed",
-      "likes": 0,
-      "likesBy": [],
-      "favorites": [],
-      "date": "2024-02-29",
-      "status": "pending",
-      "imageUrl": "https://natureinmind.ie/wp-content/uploads/2016/12/3-600x400.jpg",
-      "title": "accepted before",
-      "description": "q",
-      "userId": "c3b8",
-      "author": "test user"
-    },
-    {
-      "id": "eab5",
-      "likes": 0,
-      "likesBy": [],
-      "favorites": [],
-      "date": "2024-02-29",
-      "status": "pending",
-      "imageUrl": "https://media.istockphoto.com/id/1382384282/photo/bangalore-or-bengaluru.jpg?s=612x612&w=0&k=20&c=6pxwL3JxNV2B_NZSLMZLhrSLqAbyCPlGuSZYKImpjKQ=",
-      "title": "third test accept",
-      "description": "h",
+      "title": "first",
+      "description": "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmb bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
       "userId": "c3b8",
       "author": "test user"
     }

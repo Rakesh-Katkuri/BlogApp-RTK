@@ -1,12 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./AuthStyle.css";
+import "../AuthStyle.css";
 import axios from "axios";
-// import { validateForm } from "./FormValidator";
 import { toast } from "react-toastify"; // Import the toast library
 import "react-toastify/dist/ReactToastify.css"; // Import the default styles
-import { validateForm } from "./FormValidator";
-// import { validateForm } from "./FormValidator";
+import { validateForm } from "../formValidator/FormValidator";
 
 const Login = () => {
   const [user, setUser] = useState("");
