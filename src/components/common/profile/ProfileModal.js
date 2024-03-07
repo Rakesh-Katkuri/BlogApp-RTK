@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import defaultAvatar from "../../../assets/profile.jpg";
 
 const ProfileModal = ({ show, handleClose, userData }) => {
   console.log("modal", userData);
@@ -19,14 +20,26 @@ const ProfileModal = ({ show, handleClose, userData }) => {
       </Modal.Header>
       <Modal.Body>
         {isUserAvailable ? (
-          <div>
-            <p>ID: {currentUser.id}</p>
-            <p>First Name: {currentUser.firstName}</p>
-            <p>Last Name: {currentUser.lastName}</p>
-            <p>Email: {currentUser.email}</p>
+          <div className="profile-details">
+            <div className="avatar text-center">
+              <img
+                src={currentUser.avatar || defaultAvatar}
+                alt="User Avatar"
+              />
+            </div>
+            <div className="user-info text-center m-5">
+              <p>
+                <strong>Name:</strong> {currentUser.firstName}{" "}
+                {currentUser.lastName}
+              </p>
+              <p>
+                <strong>Email:</strong> {currentUser.email}
+              </p>
+              {/* You can add more details here like user bio, location, etc. */}
+            </div>
           </div>
         ) : (
-          <p>User data not available or does not match the logged-in user.</p>
+          <p>User data not available.</p>
         )}
       </Modal.Body>
       <Modal.Footer>

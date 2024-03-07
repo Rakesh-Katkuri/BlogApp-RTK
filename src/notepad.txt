@@ -37,3 +37,16 @@ Payload Creator Functions: These functions define how to create the payload that
 Async Operations: Inside each thunk action creator, asynchronous operations such as making HTTP requests using Axios are performed to interact with the server.
 Logging Responses: Each action creator logs the response received from the server for debugging purposes.
 Return Data: The data returned by the server response is used as the payload of the action and is made available to the reducer to update the Redux store.
+
+// docker description //
+
+Here's how the Dockerfile works:
+
+It starts from the official Node.js Docker image, which provides a base environment for running Node.js applications.
+Sets the working directory inside the container to /app.
+Copies package.json and package-lock.json files into the container.
+Installs the dependencies using npm install.
+Copies the rest of your application code into the container.
+Builds the React app using npm run build.
+Exposes port 3000, which is the default port for React apps.
+Defines the command to start the application using npm start.

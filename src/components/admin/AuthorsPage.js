@@ -11,6 +11,7 @@ import {
   updateBlogStatus,
 } from "../../redux/actions/blogAction";
 import { useNavigate } from "react-router-dom";
+import Header from "../common/header/Header";
 
 const AuthorsPage = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,8 @@ const AuthorsPage = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [showRequestsModal, setShowRequestsModal] = useState(false);
   const [pendingBlogs, setPendingBlogs] = useState([]);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
   const { posts } = useSelector((state) => state.blogs);
 
   const role = localStorage.getItem("role");
@@ -73,24 +76,52 @@ const AuthorsPage = () => {
     // Redirect to the blogs page
     navigate(`/blogs/${userId}`);
   };
+  // // direct delete fun
+  //   const handleDeleteUser = (userId) => {
+  //     // Dispatch action to delete user
+  //     dispatch(deleteUserSlice(userId));
+  //     // Dispatch action to delete blogs associated with the user
+  //     dispatch(deleteBlogsByUserId(userId));
+  //   };
 
   const handleDeleteUser = (userId) => {
+    // Set the user to delete and display confirmation dialog
+    setUserToDelete(userId);
+    setShowDeleteConfirmation(true);
+  };
+
+  const confirmDeleteUser = () => {
     // Dispatch action to delete user
-    dispatch(deleteUserSlice(userId));
-    // Dispatch action to delete blogs associated with the user
-    dispatch(deleteBlogsByUserId(userId));
+    dispatch(deleteUserSlice(userToDelete)).then(() => {
+      // Dispatch action to delete blogs associated with the user
+      dispatch(deleteBlogsByUserId(userToDelete));
+      // Dispatch action to fetch updated user list
+      dispatch(fetchUsersSlice());
+    });
+    // Close the confirmation dialog
+    setShowDeleteConfirmation(false);
+  };
+
+  const cancelDeleteUser = () => {
+    // Reset user to delete and hide confirmation dialog
+    setUserToDelete(null);
+    setShowDeleteConfirmation(false);
   };
 
   return (
     <div className="mt-5">
-      <h2>Authors</h2>
-      <Table striped bordered hover>
+      <Header
+        HeaderText="Authors Page"
+        CaptionText="Welcome to the Authors Page of BlogApp. Here you can manage authors, view their blogs, and handle blog requests."
+        textAlign="center"
+        backgroundColor="#F5F5F3"
+      />
+      <Table striped bordered hover className="m-4">
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th className="col-3">First Name</th>
+            <th className="col-3">Last Name</th>
             <th>Email</th>
-
             <th>Action</th>
           </tr>
         </thead>
@@ -153,6 +184,22 @@ const AuthorsPage = () => {
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseRequestsModal}>
             Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* for delete model */}
+      <Modal show={showDeleteConfirmation} onHide={cancelDeleteUser} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this user?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={cancelDeleteUser}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeleteUser}>
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>

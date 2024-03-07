@@ -9,6 +9,8 @@ import { Button, Modal } from "react-bootstrap";
 //redux
 import ProfileModal from "../profile/ProfileModal";
 import { fetchUsersSlice } from "../../../redux/actions/authorsActions";
+//sidebar
+import Offcanvas from "react-bootstrap/Offcanvas";
 
 const Navbar2 = () => {
   const { posts } = useSelector((state) => state.blogs);
@@ -111,6 +113,10 @@ const Navbar2 = () => {
     setShowProfileModal(false);
   };
 
+  const dropdownMenuStyle = {
+    minWidth: "200px", // Set minimum width for the dropdown menu
+  };
+
   return (
     <header>
       <nav style={customStyle} class="navbar fixed-top navbar-expand-lg p-3">
@@ -160,7 +166,7 @@ const Navbar2 = () => {
 
             <div class="col-md-5 mx-auto">
               <div class="input-group">
-                <input
+                {/* <input
                   class="form-control border-end-0 border rounded-pill"
                   type="search"
                   value={searchTerm}
@@ -168,19 +174,37 @@ const Navbar2 = () => {
                   onChange={(e) =>
                     setSearchTerm(e.target.value) || setSearchActive(true)
                   }
+                /> */}
+                <input
+                  type="search"
+                  value={searchTerm}
+                  onChange={(e) =>
+                    setSearchTerm(e.target.value) || setSearchActive(true)
+                  }
+                  class="form-control border-end-0 border rounded-0"
+                  aria-label="Recipient's username"
+                  aria-describedby="button-addon2"
                 />
-                {/* <span class="input-group-append"> */}
-
                 <button
-                  class="btn btn-outline-secondary border-bottom-0 border rounded-pill ms-n5"
+                  class="btn btn-outline-secondary text-white rounded-0"
                   type="button"
+                  id="button-addon2"
                   onClick={handleSearch}
                   disabled={!searchActive}
                 >
+                  {" "}
                   <i class="fa fa-search"></i>
                 </button>
-
-                {/* </span> */}
+                {/* <span class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary border-bottom-0 border rounded-pill ms-n5"
+                    type="button"
+                    onClick={handleSearch}
+                    disabled={!searchActive}
+                  >
+                    <i class="fa fa-search"></i>
+                  </button>
+                </span> */}
               </div>
             </div>
 
@@ -194,12 +218,15 @@ const Navbar2 = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     ></i>
-                    <ul class="dropdown-menu dropdown-menu-end rounded-0">
+                    <ul
+                      class="dropdown-menu dropdown-menu-end rounded"
+                      style={dropdownMenuStyle}
+                    >
                       <li>
                         {role === "admin" ? (
-                          <strong className="ms-4">ADMIN</strong>
+                          <strong className="ms-3">ADMIN</strong>
                         ) : (
-                          <strong className="ms-4">USER</strong>
+                          <strong className="ms-3">USER</strong>
                         )}
                         <hr className="my-1" /> {/* Add horizontal line here */}
                       </li>
@@ -211,7 +238,7 @@ const Navbar2 = () => {
                             activeLink === "" ? "nav-link active" : "nav-link"
                           }
                         >
-                          profile
+                          <i className="fa fa-user me-2"></i>Profile
                         </Link>
                       </li>
 
@@ -227,7 +254,7 @@ const Navbar2 = () => {
                             }
                             onClick={() => handleLinkClick("/authors-list")}
                           >
-                            DashBoard
+                            <i className="fa fa-dashboard me-2"></i>DashBoard
                           </Link>
                         </li>
                       ) : null}
@@ -244,7 +271,7 @@ const Navbar2 = () => {
                           }
                           onClick={() => handleLinkClick("/add-blog")}
                         >
-                          Add Blog
+                          <i className="fa fa-plus me-2"></i>Add Blog
                         </Link>
                       </li>
                       <li className="dropdown-item">
@@ -258,7 +285,7 @@ const Navbar2 = () => {
                           onClick={() => handleLinkClick("/my-blogs")}
                           aria-current="page"
                         >
-                          My Blogs
+                          <i className="fa fa-pencil me-2"></i>My Blogs
                         </Link>
                       </li>
                       <li className="dropdown-item">
@@ -271,7 +298,7 @@ const Navbar2 = () => {
                           }
                           onClick={() => handleLinkClick("/my-favorite/blogs")}
                         >
-                          My Favorites
+                          <i className="fa fa-heart me-2"></i>My Favorites
                         </Link>
                       </li>
                       <hr className="my-1" />
@@ -283,7 +310,7 @@ const Navbar2 = () => {
                           aria-current="page"
                           onClick={handleLogout}
                         >
-                          Logout
+                          <i className="fa fa-sign-out me-2"></i>Logout
                         </Link>
                       </li>
                     </ul>
@@ -318,3 +345,4 @@ const Navbar2 = () => {
 };
 
 export default Navbar2;
+// sidebar bootstrap , j o m m l m

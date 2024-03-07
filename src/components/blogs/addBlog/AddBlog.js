@@ -37,8 +37,14 @@ const AddBlog = () => {
     e.preventDefault();
 
     const userId = localStorage.getItem("userId");
+    const role = localStorage.getItem("role");
+
     posts.userId = userId;
     posts.author = author;
+
+    if (role === "admin") {
+      posts.status = "accepted"; // Set status to accepted if user is admin
+    }
 
     dispatch(addBlogSlice(posts));
 
